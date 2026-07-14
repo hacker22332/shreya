@@ -367,54 +367,141 @@
       cursor: pointer;
     }
 
-    /* ===== PERIOD ===== */
-    .period-header {
+    /* ===== PERIOD - FLO STYLE ===== */
+    .flo-header {
       display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
     }
-    .period-header button {
+    .flo-header button {
       background: none; border: none; font-size: 1.2rem; cursor: pointer;
       color: #1d1d1f; padding: 4px 12px; border-radius: 8px;
     }
-    .period-header button:hover { background: rgba(0,0,0,0.05); }
-    .period-header .month-year { font-weight: 600; font-size: 1rem; }
+    .flo-header button:hover { background: rgba(0,0,0,0.05); }
+    .flo-header .month-year { font-weight: 600; font-size: 1rem; }
 
-    .day-names {
+    .flo-day-names {
       display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
       text-align: center; font-size: 0.7rem; font-weight: 600; color: #86868b; margin-bottom: 4px;
     }
-    .period-calendar {
+    .flo-calendar {
       display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
     }
-    .period-calendar-day {
+    .flo-day {
       aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; font-size: 0.8rem; font-weight: 500; background: transparent;
+      border-radius: 50%; font-size: 0.8rem; font-weight: 500; cursor: pointer;
+      position: relative; transition: all 0.2s;
     }
-    .period-calendar-day.period { background: #FF2D55; color: white; }
-    .period-calendar-day.ovulation { background: #AF52DE; color: white; }
-    .period-calendar-day.today { border: 1.5px solid #1d1d1f; }
-
-    .prediction-box {
-      background: rgba(0,0,0,0.03); border-radius: 12px; padding: 16px; text-align: center; margin: 12px 0;
+    .flo-day:hover { background: rgba(0,0,0,0.05); }
+    .flo-day.period { background: #FF2D55; color: white; }
+    .flo-day.period-light { background: rgba(255,45,85,0.15); color: #FF2D55; font-weight: 600; }
+    .flo-day.ovulation { background: #AF52DE; color: white; }
+    .flo-day.fertile { background: rgba(175,82,222,0.15); color: #AF52DE; font-weight: 600; }
+    .flo-day.today { border: 2px solid #1d1d1f; }
+    .flo-day.selected { box-shadow: 0 0 0 3px #007AFF; }
+    .flo-day .dot {
+      position: absolute; bottom: 3px; width: 4px; height: 4px; border-radius: 50%;
     }
-    .prediction-box .days { font-size: 2rem; font-weight: 700; }
-    .prediction-box .label { font-size: 0.85rem; color: #86868b; }
+    .flo-day .dot.has-symptoms { background: #FF9500; }
+    .flo-day .dot.has-mood { background: #AF52DE; }
 
-    .period-log { margin-top: 12px; }
-    .period-log label { font-size: 0.85rem; font-weight: 500; }
-    .period-log input { padding: 8px 12px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 8px; margin: 6px 0; outline: none; font-family: inherit; }
-    .period-log .log-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-    .period-log button {
-      padding: 8px 20px; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: 500; cursor: pointer;
-      background: #1d1d1f; color: white; transition: all 0.2s;
+    .flo-cycle-banner {
+      background: linear-gradient(135deg, rgba(255,45,85,0.08), rgba(175,82,222,0.08));
+      border-radius: 14px; padding: 16px; margin: 12px 0;
+      display: flex; align-items: center; gap: 16px;
     }
-    .period-log button:hover { background: #2d2d2f; }
-    .period-log button.secondary { background: rgba(0,0,0,0.05); color: #1d1d1f; }
-    .period-log button.secondary:hover { background: rgba(0,0,0,0.1); }
+    .flo-cycle-banner .cycle-icon { font-size: 2rem; }
+    .flo-cycle-banner .cycle-info { flex: 1; }
+    .flo-cycle-banner .cycle-day { font-size: 1.8rem; font-weight: 700; }
+    .flo-cycle-banner .cycle-label { font-size: 0.8rem; color: #86868b; }
+    .flo-cycle-banner .cycle-phase {
+      display: inline-block; padding: 4px 12px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 600; margin-top: 4px;
+    }
+    .flo-cycle-banner .phase-menstrual { background: rgba(255,45,85,0.15); color: #FF2D55; }
+    .flo-cycle-banner .phase-follicular { background: rgba(90,200,250,0.15); color: #5AC8FA; }
+    .flo-cycle-banner .phase-ovulation { background: rgba(175,82,222,0.15); color: #AF52DE; }
+    .flo-cycle-banner .phase-luteal { background: rgba(255,149,0,0.15); color: #FF9500; }
 
-    .cycle-entry {
-      display: flex; justify-content: space-between; padding: 6px 10px;
+    .flo-prediction-card {
+      background: rgba(255,45,85,0.06);
+      border-radius: 14px; padding: 16px; margin: 12px 0;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .flo-prediction-card .pred-icon { font-size: 1.5rem; }
+    .flo-prediction-card .pred-text { flex: 1; }
+    .flo-prediction-card .pred-days { font-size: 1.4rem; font-weight: 700; }
+    .flo-prediction-card .pred-label { font-size: 0.8rem; color: #86868b; }
+
+    .flo-tracking-section {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0;
+    }
+    .flo-track-card {
+      background: rgba(0,0,0,0.03); border-radius: 12px; padding: 12px;
+      text-align: center;
+    }
+    .flo-track-card .track-title { font-size: 0.75rem; color: #86868b; font-weight: 500; margin-bottom: 8px; }
+    .flo-track-card .track-options { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+    .flo-track-card .track-opt {
+      padding: 6px 10px; border: none; border-radius: 8px; font-size: 0.7rem;
+      font-weight: 500; cursor: pointer; transition: all 0.2s;
+      background: rgba(0,0,0,0.04); color: #86868b;
+    }
+    .flo-track-card .track-opt:hover { background: rgba(0,0,0,0.08); }
+    .flo-track-card .track-opt.active { color: white; }
+    .flo-track-card .track-opt.active-flow-light { background: #FFD60A; color: #1d1d1f; }
+    .flo-track-card .track-opt.active-flow-medium { background: #FF9500; color: white; }
+    .flo-track-card .track-opt.active-flow-heavy { background: #FF2D55; color: white; }
+    .flo-track-card .track-opt.active-flow-spotting { background: #FFD60A; color: #1d1d1f; }
+    .flo-track-card .track-opt.active-mood { background: #AF52DE; color: white; }
+    .flo-track-card .track-opt.active-symptom { background: #FF9500; color: white; }
+
+    .flo-log-section {
+      margin-top: 16px; padding: 16px;
+      background: rgba(0,0,0,0.02); border-radius: 12px;
+    }
+    .flo-log-section label { font-size: 0.85rem; font-weight: 500; }
+    .flo-log-section input[type="date"] {
+      padding: 8px 12px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 8px;
+      margin: 6px 0; outline: none; font-family: inherit;
+    }
+    .flo-log-section .log-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .flo-log-section button {
+      padding: 8px 20px; border: none; border-radius: 8px; font-size: 0.8rem;
+      font-weight: 500; cursor: pointer; background: #1d1d1f; color: white;
+    }
+    .flo-log-section button.secondary { background: rgba(0,0,0,0.05); color: #1d1d1f; }
+
+    .flo-cycle-history { margin-top: 12px; }
+    .flo-cycle-entry {
+      display: flex; justify-content: space-between; padding: 8px 12px;
       background: rgba(0,0,0,0.03); border-radius: 8px; margin-bottom: 4px; font-size: 0.8rem;
     }
+
+    .flo-day-detail {
+      margin-top: 12px; padding: 16px;
+      background: rgba(0,0,0,0.02); border-radius: 12px;
+      display: none;
+    }
+    .flo-day-detail.show { display: block; }
+    .flo-day-detail .detail-date { font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; }
+    .flo-day-detail .detail-section { margin: 8px 0; }
+    .flo-day-detail .detail-section .sec-title { font-size: 0.75rem; color: #86868b; font-weight: 500; margin-bottom: 4px; }
+    .flo-day-detail .detail-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+    .flo-day-detail .detail-tag {
+      padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
+    }
+    .flo-day-detail .detail-tag.symptom { background: rgba(255,149,0,0.12); color: #FF9500; }
+    .flo-day-detail .detail-tag.mood { background: rgba(175,82,222,0.12); color: #AF52DE; }
+    .flo-day-detail .detail-tag.flow { background: rgba(255,45,85,0.12); color: #FF2D55; }
+    .flo-day-detail .detail-note {
+      margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.03); border-radius: 8px;
+      font-size: 0.8rem; white-space: pre-wrap;
+    }
+    .flo-day-detail textarea {
+      width: 100%; padding: 8px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 8px;
+      font-size: 0.8rem; font-family: inherit; resize: vertical; outline: none;
+      margin-top: 4px; background: rgba(255,255,255,0.5);
+    }
+    .flo-day-detail textarea:focus { border-color: #007AFF; }
 
     /* ===== STUDY ===== */
     .plant-scene {
@@ -734,28 +821,102 @@
     </div>
   </div>
 
-  <!-- PERIOD -->
+  <!-- PERIOD - FLO STYLE -->
   <div id="section-period" class="section">
-    <h2 class="section-title">Period Tracker</h2>
+    <h2 class="section-title">Cycle Tracker</h2>
     <div class="card">
-      <div class="period-header">
+      <div class="flo-header">
         <button onclick="changeMonth(-1)">←</button>
         <span class="month-year" id="periodMonthYear"></span>
         <button onclick="changeMonth(1)">→</button>
       </div>
-      <div class="day-names">
+      <div class="flo-day-names">
         <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
       </div>
-      <div class="period-calendar" id="periodCalendar"></div>
-      <div class="prediction-box" id="predictionStatus">Log your first period to see predictions</div>
-      <div class="period-log">
-        <label>Log period start date:</label>
+      <div class="flo-calendar" id="floCalendar"></div>
+
+      <div class="flo-cycle-banner" id="cycleBanner">
+        <div class="cycle-icon">🌸</div>
+        <div class="cycle-info">
+          <div class="cycle-day" id="cycleDay">--</div>
+          <div class="cycle-label">Cycle Day</div>
+          <div class="cycle-phase" id="cyclePhase">Log your period to start tracking</div>
+        </div>
+      </div>
+
+      <div class="flo-prediction-card" id="predictionCard">
+        <div class="pred-icon">📅</div>
+        <div class="pred-text">
+          <div class="pred-days" id="predDays">--</div>
+          <div class="pred-label" id="predLabel">Log your first period to see predictions</div>
+        </div>
+      </div>
+
+      <div class="flo-tracking-section" id="trackingSection">
+        <div class="flo-track-card">
+          <div class="track-title">🩸 Flow</div>
+          <div class="track-options" id="flowOptions">
+            <button class="track-opt" onclick="setFlow('spotting')">Spotting</button>
+            <button class="track-opt" onclick="setFlow('light')">Light</button>
+            <button class="track-opt" onclick="setFlow('medium')">Medium</button>
+            <button class="track-opt" onclick="setFlow('heavy')">Heavy</button>
+          </div>
+        </div>
+        <div class="flo-track-card">
+          <div class="track-title">😊 Mood</div>
+          <div class="track-options" id="moodOptions">
+            <button class="track-opt" onclick="setMood('happy')">😊</button>
+            <button class="track-opt" onclick="setMood('sad')">😢</button>
+            <button class="track-opt" onclick="setMood('anxious')">😰</button>
+            <button class="track-opt" onclick="setMood('calm')">😌</button>
+            <button class="track-opt" onclick="setMood('irritable')">😤</button>
+            <button class="track-opt" onclick="setMood('energetic')">⚡</button>
+          </div>
+        </div>
+        <div class="flo-track-card" style="grid-column:1/-1;">
+          <div class="track-title">🤕 Symptoms</div>
+          <div class="track-options" id="symptomOptions">
+            <button class="track-opt" onclick="toggleSymptom('cramps')">Cramps</button>
+            <button class="track-opt" onclick="toggleSymptom('headache')">Headache</button>
+            <button class="track-opt" onclick="toggleSymptom('bloating')">Bloating</button>
+            <button class="track-opt" onclick="toggleSymptom('fatigue')">Fatigue</button>
+            <button class="track-opt" onclick="toggleSymptom('acne')">Acne</button>
+            <button class="track-opt" onclick="toggleSymptom('nausea')">Nausea</button>
+            <button class="track-opt" onclick="toggleSymptom('cravings')">Cravings</button>
+            <button class="track-opt" onclick="toggleSymptom('backache')">Backache</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flo-day-detail" id="dayDetail">
+        <div class="detail-date" id="detailDate"></div>
+        <div class="detail-section">
+          <div class="sec-title">Flow</div>
+          <div id="detailFlow"></div>
+        </div>
+        <div class="detail-section">
+          <div class="sec-title">Mood</div>
+          <div class="detail-tags" id="detailMood"></div>
+        </div>
+        <div class="detail-section">
+          <div class="sec-title">Symptoms</div>
+          <div class="detail-tags" id="detailSymptoms"></div>
+        </div>
+        <div class="detail-section">
+          <div class="sec-title">Notes</div>
+          <textarea id="dayNoteInput" placeholder="How are you feeling today?" rows="2"></textarea>
+          <button style="margin-top:6px;padding:6px 16px;border:none;border-radius:8px;background:#1d1d1f;color:white;font-size:0.75rem;cursor:pointer;" onclick="saveDayNote()">Save Note</button>
+        </div>
+      </div>
+
+      <div class="flo-log-section">
+        <label>📅 Log a period start date:</label>
         <input type="date" id="periodDateInput">
         <div class="log-btns">
           <button onclick="logPeriod()">Log Period</button>
-          <button class="secondary" onclick="clearPeriods()">Clear</button>
+          <button class="secondary" onclick="clearPeriods()">Clear All</button>
         </div>
-        <div style="margin-top:12px;">
+        <div class="flo-cycle-history">
           <strong style="font-size:0.85rem;">Cycle History</strong>
           <div id="cycleHistory" style="margin-top:6px;"></div>
         </div>
@@ -793,7 +954,7 @@
     <div class="card">
       <p style="text-align:center;color:#86868b;margin-bottom:16px;font-size:0.9rem;">Your personal music corner</p>
       <div class="spotify-embed">
-        <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <iframe src="https://open.spotify.com/embed/playlist/52z60Fq10Qhz2mikZH8wWc?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </div>
   </div>
@@ -1066,12 +1227,16 @@
     document.removeEventListener('touchend', stopResize);
   }
 
-  // ===== PERIOD =====
+  // ===== PERIOD - FLO STYLE =====
   let periodMonth = new Date().getMonth();
   let periodYear = new Date().getFullYear();
+  let selectedDate = null;
 
   function getPeriodData() { return JSON.parse(localStorage.getItem('shreya_periods') || '[]'); }
   function savePeriodData(d) { localStorage.setItem('shreya_periods', JSON.stringify(d)); }
+
+  function getDailyLogs() { return JSON.parse(localStorage.getItem('shreya_daily_logs') || '{}'); }
+  function saveDailyLogs(d) { localStorage.setItem('shreya_daily_logs', JSON.stringify(d)); }
 
   function getCycleLength() {
     const p = getPeriodData();
@@ -1081,55 +1246,222 @@
     return Math.round(t / (p.length - 1));
   }
 
+  function getCycleDay() {
+    const p = getPeriodData();
+    if (p.length === 0) return null;
+    const last = new Date(p[p.length - 1]);
+    const today = new Date();
+    const diff = Math.floor((today - last) / (1000*60*60*24)) + 1;
+    return diff > 0 ? diff : 1;
+  }
+
+  function getPhase(day) {
+    if (!day) return { name: '--', emoji: '🌸', cls: '' };
+    const cycleLen = getCycleLength();
+    if (day <= cycleLen) {
+      if (day <= 5) return { name: 'Menstrual Phase', emoji: '🩸', cls: 'phase-menstrual' };
+      if (day <= 13) return { name: 'Follicular Phase', emoji: '🌱', cls: 'phase-follicular' };
+      if (day <= 16) return { name: 'Ovulation Phase', emoji: '🥚', cls: 'phase-ovulation' };
+      return { name: 'Luteal Phase', emoji: '🌙', cls: 'phase-luteal' };
+    }
+    return { name: 'Luteal Phase', emoji: '🌙', cls: 'phase-luteal' };
+  }
+
   function renderPeriodCalendar() {
     const periods = getPeriodData();
+    const logs = getDailyLogs();
     const firstDay = new Date(periodYear, periodMonth, 1).getDay();
     const daysInMonth = new Date(periodYear, periodMonth + 1, 0).getDate();
     document.getElementById('periodMonthYear').textContent =
       new Date(periodYear, periodMonth).toLocaleString('default', { month: 'long', year: 'numeric' });
-    const cal = document.getElementById('periodCalendar');
+    const cal = document.getElementById('floCalendar');
     cal.innerHTML = '';
-    for (let i = 0; i < firstDay; i++) { const d = document.createElement('div'); d.className = 'period-calendar-day'; cal.appendChild(d); }
+    for (let i = 0; i < firstDay; i++) { const d = document.createElement('div'); d.className = 'flo-day'; cal.appendChild(d); }
+
     const cycleLen = getCycleLength();
-    let predictedDays = [];
+    let predictedPeriodDays = [];
+    let fertileDays = [];
+    let ovulationDays = [];
     if (periods.length > 0) {
       const last = new Date(periods[periods.length - 1]);
       let next = new Date(last);
       next.setDate(next.getDate() + cycleLen);
-      for (let i = 0; i < 5; i++) {
-        for (let d = 0; d < 5; d++) { const pd = new Date(next); pd.setDate(pd.getDate() + d); predictedDays.push(pd.toDateString()); }
+      for (let i = 0; i < 3; i++) {
+        for (let d = 0; d < 5; d++) { const pd = new Date(next); pd.setDate(pd.getDate() + d); predictedPeriodDays.push(pd.toDateString()); }
         next.setDate(next.getDate() + cycleLen);
       }
+      const ovStart = new Date(last);
+      ovStart.setDate(ovStart.getDate() + (cycleLen - 14) - 3);
+      for (let i = 0; i < 7; i++) { const d = new Date(ovStart); d.setDate(d.getDate() + i); fertileDays.push(d.toDateString()); }
+      const ovDay = new Date(last); ovDay.setDate(ovDay.getDate() + (cycleLen - 14));
+      for (let i = -1; i <= 1; i++) { const d = new Date(ovDay); d.setDate(d.getDate() + i); ovulationDays.push(d.toDateString()); }
     }
+
     for (let d = 1; d <= daysInMonth; d++) {
       const div = document.createElement('div');
-      div.className = 'period-calendar-day';
-      const dateStr = new Date(periodYear, periodMonth, d).toDateString();
+      div.className = 'flo-day';
+      const dateObj = new Date(periodYear, periodMonth, d);
+      const dateStr = dateObj.toDateString();
+      const dateKey = formatDateKey(dateObj);
+
       if (new Date().toDateString() === dateStr) div.classList.add('today');
+      if (selectedDate === dateKey) div.classList.add('selected');
+
       if (periods.some(p => new Date(p).toDateString() === dateStr)) div.classList.add('period');
-      if (predictedDays.includes(dateStr) && !periods.some(p => new Date(p).toDateString() === dateStr)) div.classList.add('ovulation');
+      else if (predictedPeriodDays.includes(dateStr)) div.classList.add('period-light');
+      if (ovulationDays.includes(dateStr)) div.classList.add('ovulation');
+      else if (fertileDays.includes(dateStr)) div.classList.add('fertile');
+
+      if (logs[dateKey] && (logs[dateKey].symptoms?.length || logs[dateKey].mood)) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        if (logs[dateKey].symptoms?.length) dot.classList.add('has-symptoms');
+        if (logs[dateKey].mood) dot.classList.add('has-mood');
+        div.appendChild(dot);
+      }
+
       div.textContent = d;
+      div.onclick = () => selectDay(dateObj);
       cal.appendChild(div);
     }
-    const pred = document.getElementById('predictionStatus');
-    if (periods.length === 0) { pred.innerHTML = 'Log your first period to see predictions'; }
-    else {
+
+    // Cycle banner
+    const cycleDay = getCycleDay();
+    const banner = document.getElementById('cycleBanner');
+    if (cycleDay) {
+      const phase = getPhase(cycleDay);
+      document.getElementById('cycleDay').textContent = `Day ${cycleDay}`;
+      document.getElementById('cyclePhase').textContent = `${phase.emoji} ${phase.name}`;
+      document.getElementById('cyclePhase').className = `cycle-phase ${phase.cls}`;
+    } else {
+      document.getElementById('cycleDay').textContent = '--';
+      document.getElementById('cyclePhase').textContent = 'Log your period to start tracking';
+      document.getElementById('cyclePhase').className = 'cycle-phase';
+    }
+
+    // Prediction
+    const predDays = document.getElementById('predDays');
+    const predLabel = document.getElementById('predLabel');
+    if (periods.length === 0) {
+      predDays.textContent = '--';
+      predLabel.textContent = 'Log your first period to see predictions';
+    } else {
       const last = new Date(periods[periods.length - 1]);
       const next = new Date(last); next.setDate(next.getDate() + cycleLen);
       const diff = Math.ceil((next - new Date()) / (1000*60*60*24));
-      if (diff < 0) pred.innerHTML = `Period may be late. Last: ${periods[periods.length-1]}`;
-      else if (diff <= 5) pred.innerHTML = `Period expected in <strong>${diff}</strong> day${diff>1?'s':''}`;
-      else pred.innerHTML = `Next period in <strong>${diff}</strong> days (around ${next.toLocaleDateString()})`;
+      if (diff < 0) { predDays.textContent = '🔴'; predLabel.textContent = `Period may be late. Last: ${periods[periods.length-1]}`; }
+      else if (diff <= 5) { predDays.textContent = diff; predLabel.textContent = `day${diff>1?'s':''} until next period`; }
+      else { predDays.textContent = diff; predLabel.textContent = `days until next period (around ${next.toLocaleDateString()})`; }
     }
+
+    // Cycle history
     const hist = document.getElementById('cycleHistory');
     if (periods.length === 0) hist.innerHTML = '<p style="color:#86868b;font-size:0.8rem;">No cycles logged</p>';
     else hist.innerHTML = periods.map((p,i) => {
       const diff = i > 0 ? Math.round((new Date(p)-new Date(periods[i-1]))/(1000*60*60*24)) + ' days' : 'First';
-      return `<div class="cycle-entry"><span>${new Date(p).toLocaleDateString()}</span><span>${diff}</span></div>`;
+      return `<div class="flo-cycle-entry"><span>${new Date(p).toLocaleDateString()}</span><span>${diff}</span></div>`;
     }).join('');
+
+    // Update tracking for selected date
+    if (selectedDate) updateTrackingUI(selectedDate);
   }
 
-  function changeMonth(d) { periodMonth += d; if (periodMonth<0){periodMonth=11;periodYear--;} if(periodMonth>11){periodMonth=0;periodYear++;} renderPeriodCalendar(); }
+  function changeMonth(d) {
+    periodMonth += d;
+    if (periodMonth < 0) { periodMonth = 11; periodYear--; }
+    if (periodMonth > 11) { periodMonth = 0; periodYear++; }
+    renderPeriodCalendar();
+  }
+
+  function selectDay(dateObj) {
+    selectedDate = formatDateKey(dateObj);
+    const detail = document.getElementById('dayDetail');
+    detail.classList.add('show');
+    document.getElementById('detailDate').textContent = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    updateTrackingUI(selectedDate);
+    renderPeriodCalendar();
+  }
+
+  function formatDateKey(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function getDayLog(dateKey) {
+    const logs = getDailyLogs();
+    return logs[dateKey] || { flow: null, mood: null, symptoms: [], note: '' };
+  }
+
+  function updateTrackingUI(dateKey) {
+    const log = getDayLog(dateKey);
+    // Flow
+    document.querySelectorAll('#flowOptions .track-opt').forEach(b => {
+      b.className = 'track-opt';
+      if (b.textContent.toLowerCase() === log.flow) b.classList.add(`active-flow-${log.flow}`);
+    });
+    // Mood
+    document.querySelectorAll('#moodOptions .track-opt').forEach(b => {
+      b.className = 'track-opt';
+      if (b.textContent.includes(moodEmoji(log.mood))) b.classList.add('active-mood');
+    });
+    // Symptoms
+    document.querySelectorAll('#symptomOptions .track-opt').forEach(b => {
+      b.className = 'track-opt';
+      if (log.symptoms?.includes(b.textContent.toLowerCase())) b.classList.add('active-symptom');
+    });
+    // Detail panel
+    document.getElementById('detailFlow').textContent = log.flow ? log.flow.charAt(0).toUpperCase() + log.flow.slice(1) : 'Not logged';
+    document.getElementById('detailMood').innerHTML = log.mood ? `<span class="detail-tag mood">${moodEmoji(log.mood)} ${log.mood}</span>` : 'Not logged';
+    document.getElementById('detailSymptoms').innerHTML = log.symptoms?.length
+      ? log.symptoms.map(s => `<span class="detail-tag symptom">${s}</span>`).join('')
+      : 'None';
+    document.getElementById('dayNoteInput').value = log.note || '';
+  }
+
+  function moodEmoji(m) {
+    const map = { happy: '😊', sad: '😢', anxious: '😰', calm: '😌', irritable: '😤', energetic: '⚡' };
+    return map[m] || '';
+  }
+
+  function setFlow(val) {
+    if (!selectedDate) { alert('Tap a day on the calendar first'); return; }
+    const logs = getDailyLogs();
+    if (!logs[selectedDate]) logs[selectedDate] = { flow: null, mood: null, symptoms: [], note: '' };
+    logs[selectedDate].flow = logs[selectedDate].flow === val ? null : val;
+    saveDailyLogs(logs);
+    updateTrackingUI(selectedDate);
+    renderPeriodCalendar();
+  }
+
+  function setMood(val) {
+    if (!selectedDate) { alert('Tap a day on the calendar first'); return; }
+    const logs = getDailyLogs();
+    if (!logs[selectedDate]) logs[selectedDate] = { flow: null, mood: null, symptoms: [], note: '' };
+    logs[selectedDate].mood = logs[selectedDate].mood === val ? null : val;
+    saveDailyLogs(logs);
+    updateTrackingUI(selectedDate);
+    renderPeriodCalendar();
+  }
+
+  function toggleSymptom(val) {
+    if (!selectedDate) { alert('Tap a day on the calendar first'); return; }
+    const logs = getDailyLogs();
+    if (!logs[selectedDate]) logs[selectedDate] = { flow: null, mood: null, symptoms: [], note: '' };
+    const idx = logs[selectedDate].symptoms.indexOf(val);
+    if (idx > -1) logs[selectedDate].symptoms.splice(idx, 1);
+    else logs[selectedDate].symptoms.push(val);
+    saveDailyLogs(logs);
+    updateTrackingUI(selectedDate);
+    renderPeriodCalendar();
+  }
+
+  function saveDayNote() {
+    if (!selectedDate) return;
+    const logs = getDailyLogs();
+    if (!logs[selectedDate]) logs[selectedDate] = { flow: null, mood: null, symptoms: [], note: '' };
+    logs[selectedDate].note = document.getElementById('dayNoteInput').value;
+    saveDailyLogs(logs);
+  }
+
   function logPeriod() {
     const input = document.getElementById('periodDateInput');
     const date = input.value;
@@ -1138,7 +1470,8 @@
     if (!p.includes(date)) { p.push(date); p.sort(); savePeriodData(p); }
     renderPeriodCalendar(); input.value = '';
   }
-  function clearPeriods() { if (confirm('Clear all?')) { savePeriodData([]); renderPeriodCalendar(); } }
+
+  function clearPeriods() { if (confirm('Clear all period data?')) { savePeriodData([]); renderPeriodCalendar(); } }
 
   // ===== STUDY =====
   function getStudyData() { return JSON.parse(localStorage.getItem('shreya_study') || '{"total":0,"logs":[]}'); }
