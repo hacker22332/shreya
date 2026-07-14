@@ -562,28 +562,158 @@
     .spotify-embed { border-radius: 14px; overflow: hidden; }
     .spotify-embed iframe { width: 100%; height: 380px; border: none; }
 
-    /* ===== NOTES ===== */
-    .note-input-area textarea {
-      width: 100%; min-height: 100px; padding: 14px;
-      border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px;
-      font-size: 0.9rem; resize: vertical; outline: none; font-family: inherit;
+    /* ===== NOTES - EVERNOTE STYLE ===== */
+    .evernote-layout {
+      display: flex; gap: 0; min-height: 500px;
+      background: rgba(255,255,255,0.5); border-radius: 14px; overflow: hidden;
+    }
+    .evernote-sidebar {
+      width: 180px; flex-shrink: 0;
+      background: rgba(0,0,0,0.02);
+      border-right: 0.5px solid rgba(0,0,0,0.06);
+      padding: 12px;
+    }
+    .evernote-sidebar .sidebar-title {
+      font-size: 0.7rem; font-weight: 600; color: #86868b;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+    }
+    .evernote-sidebar .notebook-item {
+      padding: 8px 10px; border-radius: 8px; cursor: pointer;
+      font-size: 0.8rem; font-weight: 500; transition: all 0.2s;
+      margin-bottom: 2px;
+    }
+    .evernote-sidebar .notebook-item:hover { background: rgba(0,0,0,0.05); }
+    .evernote-sidebar .notebook-item.active { background: rgba(0,122,255,0.1); color: #007AFF; }
+    .evernote-sidebar .notebook-item .count {
+      float: right; color: #86868b; font-size: 0.7rem;
+    }
+    .evernote-sidebar .add-notebook {
+      padding: 8px 10px; border: none; background: none; cursor: pointer;
+      font-size: 0.75rem; color: #007AFF; font-weight: 500; width: 100%; text-align: left;
+      border-radius: 8px; transition: background 0.2s;
+    }
+    .evernote-sidebar .add-notebook:hover { background: rgba(0,0,0,0.05); }
+
+    .evernote-main {
+      flex: 1; display: flex; flex-direction: column; min-width: 0;
+    }
+    .evernote-toolbar {
+      display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
       background: rgba(255,255,255,0.5);
     }
-    .note-input-area textarea:focus { border-color: #007AFF; }
-    .note-input-area button {
-      padding: 10px 24px; border: none; border-radius: 10px;
-      background: #1d1d1f; color: white; font-size: 0.85rem; font-weight: 500; cursor: pointer;
-      margin-top: 8px; float: right;
+    .evernote-toolbar input {
+      flex: 1; padding: 6px 10px; border: none; border-radius: 6px;
+      font-size: 0.8rem; outline: none; background: rgba(0,0,0,0.04);
+      font-family: inherit;
     }
-    .note-item {
-      background: rgba(0,0,0,0.03); padding: 14px; border-radius: 12px; position: relative;
-      margin-bottom: 8px; animation: fadeIn 0.3s ease;
+    .evernote-toolbar input:focus { background: rgba(0,0,0,0.06); }
+    .evernote-toolbar button {
+      padding: 6px 12px; border: none; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 500; cursor: pointer;
+      background: #1d1d1f; color: white;
     }
-    .note-item .note-date { font-size: 0.7rem; color: #86868b; }
-    .note-item .note-text { margin-top: 4px; white-space: pre-wrap; font-size: 0.9rem; }
-    .note-item .delete-note {
-      position: absolute; top: 8px; right: 10px;
-      background: none; border: none; color: #FF2D55; cursor: pointer; font-size: 0.9rem;
+    .evernote-toolbar button:hover { background: #2d2d2f; }
+
+    .evernote-body {
+      display: flex; min-height: 400px;
+    }
+    .evernote-list {
+      width: 220px; flex-shrink: 0; overflow-y: auto;
+      border-right: 0.5px solid rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.3);
+    }
+    .evernote-list .list-header {
+      padding: 10px 14px; font-size: 0.7rem; font-weight: 600;
+      color: #86868b; text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.04);
+    }
+    .evernote-note-item {
+      padding: 12px 14px; cursor: pointer; transition: all 0.2s;
+      border-bottom: 0.5px solid rgba(0,0,0,0.04);
+    }
+    .evernote-note-item:hover { background: rgba(0,0,0,0.03); }
+    .evernote-note-item.active { background: rgba(0,122,255,0.08); }
+    .evernote-note-item .note-item-title {
+      font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .evernote-note-item .note-item-snippet {
+      font-size: 0.75rem; color: #86868b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;
+    }
+    .evernote-note-item .note-item-meta {
+      display: flex; align-items: center; gap: 6px; margin-top: 4px;
+    }
+    .evernote-note-item .note-item-date { font-size: 0.65rem; color: #b0b0b0; }
+    .evernote-note-item .note-item-tags { display: flex; gap: 3px; flex-wrap: wrap; }
+    .evernote-note-item .note-item-tag {
+      font-size: 0.6rem; padding: 1px 6px; border-radius: 4px;
+      background: rgba(0,122,255,0.1); color: #007AFF;
+    }
+    .evernote-note-item .note-item-pin {
+      font-size: 0.7rem; margin-left: auto;
+    }
+    .evernote-note-item .note-item-delete {
+      background: none; border: none; color: #FF2D55; cursor: pointer;
+      font-size: 0.7rem; opacity: 0; transition: opacity 0.2s; margin-left: 4px;
+    }
+    .evernote-note-item:hover .note-item-delete { opacity: 1; }
+
+    .evernote-editor {
+      flex: 1; padding: 20px; display: flex; flex-direction: column;
+    }
+    .evernote-editor .editor-title {
+      width: 100%; padding: 8px 0; border: none; font-size: 1.2rem;
+      font-weight: 700; outline: none; font-family: inherit;
+      background: transparent; margin-bottom: 8px;
+    }
+    .evernote-editor .editor-title::placeholder { color: #c0c0c0; }
+    .evernote-editor .editor-tags {
+      display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .evernote-editor .editor-tag {
+      display: flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 500;
+      background: rgba(0,122,255,0.1); color: #007AFF;
+    }
+    .evernote-editor .editor-tag .remove-tag {
+      cursor: pointer; font-size: 0.6rem; opacity: 0.6;
+    }
+    .evernote-editor .editor-tag .remove-tag:hover { opacity: 1; }
+    .evernote-editor .editor-tag-input {
+      border: none; font-size: 0.7rem; outline: none; background: transparent;
+      color: #007AFF; font-family: inherit; width: 60px;
+    }
+    .evernote-editor .editor-tag-input::placeholder { color: #c0c0c0; }
+    .evernote-editor .editor-body {
+      flex: 1; width: 100%; min-height: 200px; padding: 8px 0;
+      border: none; font-size: 0.9rem; line-height: 1.6; outline: none;
+      font-family: inherit; resize: vertical; background: transparent;
+    }
+    .evernote-editor .editor-body::placeholder { color: #c0c0c0; }
+    .evernote-editor .editor-actions {
+      display: flex; gap: 8px; margin-top: 12px;
+    }
+    .evernote-editor .editor-actions button {
+      padding: 8px 20px; border: none; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 500; cursor: pointer;
+    }
+    .evernote-editor .editor-actions .save-btn { background: #007AFF; color: white; }
+    .evernote-editor .editor-actions .save-btn:hover { background: #0066d6; }
+    .evernote-editor .editor-actions .pin-btn { background: rgba(0,0,0,0.05); color: #1d1d1f; }
+    .evernote-editor .editor-actions .pin-btn.pinned { background: rgba(255,204,0,0.15); color: #b38600; }
+    .evernote-editor .editor-actions .delete-btn { background: rgba(255,45,85,0.1); color: #FF2D55; }
+
+    .evernote-empty {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 20px; color: #86868b;
+    }
+    .evernote-empty .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+    .evernote-empty .empty-text { font-size: 0.9rem; }
+
+    @media (max-width: 768px) {
+      .evernote-layout { flex-direction: column; }
+      .evernote-sidebar { width: 100%; border-right: none; border-bottom: 0.5px solid rgba(0,0,0,0.06); }
+      .evernote-list { width: 100%; border-right: none; max-height: 200px; }
     }
 
     /* ===== GALLERY ===== */
@@ -959,15 +1089,43 @@
     </div>
   </div>
 
-  <!-- NOTES -->
+  <!-- NOTES - EVERNOTE STYLE -->
   <div id="section-notes" class="section">
     <h2 class="section-title">Notes</h2>
-    <div class="card">
-      <div class="note-input-area">
-        <textarea id="noteInput" placeholder="Write something..."></textarea>
-        <button onclick="addNote()">Save</button>
+    <div class="evernote-layout">
+      <div class="evernote-sidebar">
+        <div class="sidebar-title">Notebooks</div>
+        <div id="notebookList"></div>
+        <button class="add-notebook" onclick="addNotebook()">+ New Notebook</button>
       </div>
-      <div class="notes-list" id="notesList" style="margin-top:20px;"></div>
+      <div class="evernote-main">
+        <div class="evernote-toolbar">
+          <input type="text" id="noteSearch" placeholder="Search notes..." oninput="renderNotes()">
+          <button onclick="newNote()">+ New</button>
+        </div>
+        <div class="evernote-body">
+          <div class="evernote-list" id="evernoteList">
+            <div class="list-header" id="noteListHeader">All Notes</div>
+            <div id="noteListItems"></div>
+          </div>
+          <div class="evernote-editor" id="evernoteEditor">
+            <div class="evernote-empty" id="evernoteEmpty">
+              <div class="empty-icon">📝</div>
+              <div class="empty-text">Select a note or create a new one</div>
+            </div>
+            <div id="evernoteEditorContent" style="display:none;flex-direction:column;flex:1;">
+              <input class="editor-title" id="editorTitle" placeholder="Note title..." oninput="autoSaveNote()">
+              <div class="editor-tags" id="editorTags"></div>
+              <textarea class="editor-body" id="editorBody" placeholder="Start writing..." oninput="autoSaveNote()"></textarea>
+              <div class="editor-actions">
+                <button class="save-btn" onclick="saveCurrentNote()">Save</button>
+                <button class="pin-btn" id="pinBtn" onclick="togglePin()">📌 Pin</button>
+                <button class="delete-btn" onclick="deleteCurrentNote()">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1521,25 +1679,240 @@
     ).join('');
   }
 
-  // ===== NOTES =====
-  function getNotes() { return JSON.parse(localStorage.getItem('shreya_notes') || '[]'); }
-  function saveNotes(n) { localStorage.setItem('shreya_notes', JSON.stringify(n)); }
-  function addNote() {
-    const input = document.getElementById('noteInput');
-    const text = input.value.trim();
-    if (!text) { alert('Write something'); return; }
-    const notes = getNotes();
-    notes.unshift({ text, date: new Date().toLocaleString() });
-    saveNotes(notes); renderNotes(); updateHomeStats(); input.value = '';
+  // ===== NOTES - EVERNOTE STYLE =====
+  let currentNoteId = null;
+  let currentNotebook = 'all';
+
+  function getNotes() { return JSON.parse(localStorage.getItem('shreya_evernotes') || '[]'); }
+  function saveNotes(n) { localStorage.setItem('shreya_evernotes', JSON.stringify(n)); }
+  function getNotebooks() { return JSON.parse(localStorage.getItem('shreya_notebooks') || '["Personal","Study","Ideas"]'); }
+  function saveNotebooks(n) { localStorage.setItem('shreya_notebooks', JSON.stringify(n)); }
+
+  function addNotebook() {
+    const name = prompt('Notebook name:');
+    if (!name || !name.trim()) return;
+    const nb = getNotebooks();
+    if (!nb.includes(name.trim())) { nb.push(name.trim()); saveNotebooks(nb); renderNotes(); }
   }
-  function deleteNote(i) { const n = getNotes(); n.splice(i,1); saveNotes(n); renderNotes(); updateHomeStats(); }
+
+  function newNote() {
+    const notes = getNotes();
+    const id = Date.now();
+    notes.unshift({ id, title: '', body: '', tags: [], notebook: selectedNotebook || 'Personal', pinned: false, date: new Date().toISOString() });
+    saveNotes(notes);
+    currentNoteId = id;
+    renderNotes();
+    openNoteEditor(id);
+  }
+
+  function autoSaveNote() {
+    if (!currentNoteId) return;
+    const notes = getNotes();
+    const n = notes.find(n => n.id === currentNoteId);
+    if (!n) return;
+    n.title = document.getElementById('editorTitle').value;
+    n.body = document.getElementById('editorBody').value;
+    saveNotes(notes);
+  }
+
+  function saveCurrentNote() {
+    autoSaveNote();
+  }
+
+  function renderEditorTags(tags) {
+    const container = document.getElementById('editorTags');
+    container.innerHTML = '';
+    (tags || []).forEach(t => {
+      const span = document.createElement('span');
+      span.className = 'editor-tag';
+      span.innerHTML = `${t} <span class="remove-tag" onclick="removeTag('${t}')">✕</span>`;
+      container.appendChild(span);
+    });
+    const input = document.createElement('input');
+    input.className = 'editor-tag-input';
+    input.placeholder = '+ tag';
+    input.onkeydown = function(e) {
+      if (e.key === 'Enter' && this.value.trim()) {
+        addTag(this.value.trim());
+        this.value = '';
+      }
+    };
+    container.appendChild(input);
+  }
+
+  function addTag(tag) {
+    if (!currentNoteId) return;
+    const notes = getNotes();
+    const n = notes.find(n => n.id === currentNoteId);
+    if (!n) return;
+    if (!n.tags) n.tags = [];
+    if (!n.tags.includes(tag)) n.tags.push(tag);
+    saveNotes(n);
+    renderEditorTags(n.tags);
+    renderNotes();
+  }
+
+  function removeTag(tag) {
+    if (!currentNoteId) return;
+    const notes = getNotes();
+    const n = notes.find(n => n.id === currentNoteId);
+    if (!n) return;
+    n.tags = (n.tags || []).filter(t => t !== tag);
+    saveNotes(n);
+    renderEditorTags(n.tags);
+    renderNotes();
+  }
+
+  function togglePin() {
+    if (!currentNoteId) return;
+    const notes = getNotes();
+    const n = notes.find(n => n.id === currentNoteId);
+    if (!n) return;
+    n.pinned = !n.pinned;
+    saveNotes(n);
+    renderNotes();
+    const pinBtn = document.getElementById('pinBtn');
+    pinBtn.textContent = n.pinned ? '📌 Pinned' : '📌 Pin';
+    pinBtn.className = 'pin-btn' + (n.pinned ? ' pinned' : '');
+  }
+
+  function deleteCurrentNote() {
+    if (!currentNoteId) return;
+    if (!confirm('Delete this note?')) return;
+    let notes = getNotes();
+    notes = notes.filter(n => n.id !== currentNoteId);
+    saveNotes(notes);
+    currentNoteId = null;
+    renderNotes();
+    document.getElementById('evernoteEmpty').style.display = 'flex';
+    document.getElementById('evernoteEditorContent').style.display = 'none';
+    updateHomeStats();
+  }
+
+  let selectedNotebook = 'all';
+
   function renderNotes() {
     const notes = getNotes();
-    const list = document.getElementById('notesList');
-    if (notes.length === 0) { list.innerHTML = '<p style="color:#86868b;text-align:center;padding:20px;font-size:0.85rem;">No notes yet</p>'; return; }
-    list.innerHTML = notes.map((n,i) =>
-      `<div class="note-item"><div class="note-date">${n.date}</div><div class="note-text">${n.text}</div><button class="delete-note" onclick="deleteNote(${i})">✕</button></div>`
-    ).join('');
+    const notebooks = getNotebooks();
+    const search = (document.getElementById('noteSearch').value || '').toLowerCase();
+
+    // Render notebooks
+    const nbList = document.getElementById('notebookList');
+    nbList.innerHTML = `
+      <div class="notebook-item ${selectedNotebook === 'all' ? 'active' : ''}" onclick="selectNotebook('all')">📓 All Notes <span class="count">${notes.length}</span></div>
+      ${notebooks.map(nb => `
+        <div class="notebook-item ${selectedNotebook === nb ? 'active' : ''}" onclick="selectNotebook('${nb}')">
+          📔 ${nb} <span class="count">${notes.filter(n => n.notebook === nb).length}</span>
+        </div>
+      `).join('')}
+    `;
+
+    // Filter notes
+    let filtered = notes;
+    if (selectedNotebook !== 'all') filtered = filtered.filter(n => n.notebook === selectedNotebook);
+    if (search) filtered = filtered.filter(n =>
+      (n.title || '').toLowerCase().includes(search) ||
+      (n.body || '').toLowerCase().includes(search) ||
+      (n.tags || []).some(t => t.toLowerCase().includes(search))
+    );
+
+    const pinned = filtered.filter(n => n.pinned);
+    const unpinned = filtered.filter(n => !n.pinned);
+    const sorted = [...pinned, ...unpinned];
+
+    document.getElementById('noteListHeader').textContent =
+      selectedNotebook === 'all' ? 'All Notes' : `📔 ${selectedNotebook}`;
+
+    const list = document.getElementById('noteListItems');
+    if (sorted.length === 0) {
+      list.innerHTML = '<div style="padding:20px;text-align:center;color:#86868b;font-size:0.8rem;">No notes yet</div>';
+      return;
+    }
+    list.innerHTML = sorted.map(n => {
+      const snippet = (n.body || '').substring(0, 60) + ((n.body || '').length > 60 ? '...' : '');
+      const tags = (n.tags || []).map(t => `<span class="note-item-tag">${t}</span>`).join('');
+      const isActive = n.id === currentNoteId;
+      return `<div class="evernote-note-item ${isActive ? 'active' : ''}" onclick="openNoteEditor(${n.id})">
+        <div class="note-item-title">${n.pinned ? '📌 ' : ''}${n.title || 'Untitled'}</div>
+        <div class="note-item-snippet">${(n.body || '').substring(0, 60)}${(n.body||'').length > 60 ? '...' : ''}</div>
+        <div class="note-item-meta">
+          <span class="note-item-date">${new Date(n.date).toLocaleDateString()}</span>
+          ${tags ? `<span class="note-item-tags">${tags}</span>` : ''}
+          <button class="note-item-delete" onclick="event.stopPropagation();deleteNoteById(${n.id})">✕</button>
+        </div>
+      </div>`;
+    });
+  }
+
+  function selectNotebook(nb) {
+    selectedNotebook = nb;
+    renderNotes();
+  }
+
+  // ===== NOTES - EVERNOTE STYLE =====
+  let currentNoteId = null;
+  let selectedNotebook = 'all';
+
+  function getNotes() { return JSON.parse(localStorage.getItem('shreya_evernotes') || '[]'); }
+  function saveNotes(n) { localStorage.setItem('shreya_evernotes', JSON.stringify(n)); }
+  function getNotebooks() { return JSON.parse(localStorage.getItem('shreya_notebooks') || '["Personal","Study","Ideas"]'); }
+  function saveNotebooks(n) { localStorage.setItem('shreya_notebooks', JSON.stringify(n)); }
+
+  function addNotebook() {
+    const name = prompt('Notebook name:');
+    if (!name || !name.trim()) return;
+    const nb = getNotebooks();
+    if (!nb.includes(name.trim())) { nb.push(name.trim()); saveNotebooks(nb); renderNotes(); }
+  }
+
+  function newNote() {
+    const notes = getNotes();
+    const id = Date.now();
+    notes.unshift({ id, title: '', body: '', tags: [], notebook: selectedNotebook === 'all' ? 'Personal' : selectedNotebook, pinned: false, date: new Date().toISOString() });
+    saveNotes(notes);
+    currentNoteId = id;
+    renderNotes();
+    openNoteEditor(id);
+  }
+
+  function openNoteEditor(id) {
+    currentNoteId = id;
+    const notes = getNotes();
+    const n = notes.find(n => n.id === id);
+    if (!n) return;
+    document.getElementById('evernoteEmpty').style.display = 'none';
+    document.getElementById('evernoteEditorContent').style.display = 'flex';
+    document.getElementById('editorTitle').value = n.title || '';
+    document.getElementById('editorBody').value = n.body || '';
+    const pinBtn = document.getElementById('pinBtn');
+    pinBtn.textContent = n.pinned ? '📌 Pinned' : '📌 Pin';
+    pinBtn.className = 'pin-btn' + (n.pinned ? ' pinned' : '');
+    renderEditorTags(n.tags || []);
+    renderNotes();
+  }
+
+  function autoSaveNote() {
+    if (!currentNoteId) return;
+    const notes = getNotes();
+    const n = notes.find(n => n.id === currentNoteId);
+    if (!n) return;
+    n.title = document.getElementById('editorTitle').value;
+    n.body = document.getElementById('editorBody').value;
+    saveNotes(notes);
+  }
+
+  function deleteNoteById(id) {
+    if (!confirm('Delete this note?')) return;
+    let notes = getNotes();
+    notes = notes.filter(n => n.id !== id);
+    saveNotes(notes);
+    if (currentNoteId === id) {
+      currentNoteId = null;
+      document.getElementById('evernoteEmpty').style.display = 'flex';
+      document.getElementById('evernoteEditorContent').style.display = 'none';
+    }
+    renderNotes();
+    updateHomeStats();
   }
 
   // ===== GALLERY =====
