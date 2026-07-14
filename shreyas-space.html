@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#ff9eb5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Shreya's Space">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.svg">
+  <title>Shreya's Space</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink: #ff9eb5;
+      --pink-light: #ffd6e0;
+      --pink-dark: #e8708a;
+      --yellow: #ffd93d;
+      --yellow-light: #fff3b0;
+      --green: #6bcb77;
+      --green-light: #a8e6cf;
+      --purple: #c9b1ff;
+      --blue: #a0d2ff;
+      --bg: #fff5f7;
+      --card: #ffffff;
+      --text: #4a4a4a;
+      --shadow: 0 4px 20px rgba(255, 158, 181, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== SPLASH SCREEN ===== */
+    #splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #fff5f7 0%, #ffe8b0 50%, #fff5f7 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    #splash.hide {
+      opacity: 0;
+      transform: scale(1.1);
+      pointer-events: none;
+    }
+
+    .sunflower-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .sunflower-petal {
+      position: absolute;
+      width: 50px;
+      height: 80px;
+      background: linear-gradient(180deg, #ffd93d, #ff9eb5);
+      border-radius: 50% 50% 50% 50%;
+      top: 50%;
+      left: 50%;
+      transform-origin: bottom center;
+      opacity: 0;
+      animation: petalGrow 0.6s ease forwards;
+    }
+
+    .sunflower-petal:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg); animation-delay: 0.1s; }
+    .sunflower-petal:nth-child(2) { transform: translate(-50%, -100%) rotate(30deg); animation-delay: 0.15s; }
+    .sunflower-petal:nth-child(3) { transform: translate(-50%, -100%) rotate(60deg); animation-delay: 0.2s; }
+    .sunflower-petal:nth-child(4) { transform: translate(-50%, -100%) rotate(90deg); animation-delay: 0.25s; }
+    .sunflower-petal:nth-child(5) { transform: translate(-50%, -100%) rotate(120deg); animation-delay: 0.3s; }
+    .sunflower-petal:nth-child(6) { transform: translate(-50%, -100%) rotate(150deg); animation-delay: 0.35s; }
+    .sunflower-petal:nth-child(7) { transform: translate(-50%, -100%) rotate(180deg); animation-delay: 0.4s; }
+    .sunflower-petal:nth-child(8) { transform: translate(-50%, -100%) rotate(210deg); animation-delay: 0.45s; }
+    .sunflower-petal:nth-child(9) { transform: translate(-50%, -100%) rotate(240deg); animation-delay: 0.5s; }
+    .sunflower-petal:nth-child(10) { transform: translate(-50%, -100%) rotate(270deg); animation-delay: 0.55s; }
+    .sunflower-petal:nth-child(11) { transform: translate(-50%, -100%) rotate(300deg); animation-delay: 0.6s; }
+    .sunflower-petal:nth-child(12) { transform: translate(-50%, -100%) rotate(330deg); animation-delay: 0.65s; }
+
+    @keyframes petalGrow {
+      0% { transform: translate(-50%, -100%) scale(0) rotate(var(--r, 0deg)); opacity: 0; }
+      60% { transform: translate(-50%, -100%) scale(1.1) rotate(var(--r, 0deg)); opacity: 1; }
+      100% { transform: translate(-50%, -100%) scale(1) rotate(var(--r, 0deg)); opacity: 1; }
+    }
+
+    .sunflower-center {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #5a3a1a, #3d2817);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(90, 58, 26, 0.3);
+    }
+
+    .sunflower-stem {
+      position: absolute;
+      width: 8px;
+      height: 120px;
+      background: linear-gradient(180deg, #4a7c3f, #2d5a27);
+      top: calc(50% + 30px);
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 4px;
+      animation: stemGrow 0.8s ease forwards;
+      transform-origin: top center;
+    }
+
+    @keyframes stemGrow {
+      0% { height: 0; }
+      100% { height: 120px; }
+    }
+
+    .sunflower-leaf {
+      position: absolute;
+      width: 30px;
+      height: 15px;
+      background: #6bcb77;
+      border-radius: 50% 0 50% 0;
+      top: calc(50% + 80px);
+    }
+    .sunflower-leaf.left { left: calc(50% - 35px); transform: rotate(-30deg); }
+    .sunflower-leaf.right { left: calc(50% + 5px); transform: rotate(30deg) scaleX(-1); }
+
+    .splash-text {
+      margin-top: 40px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: #e8708a;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1s forwards;
+    }
+
+    .splash-sub {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      color: #c9b1ff;
+      margin-top: 10px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1.5s forwards;
+    }
+
+    .splash-btn {
+      margin-top: 30px;
+      padding: 12px 40px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff9eb5, #ffd93d);
+      color: white;
+      font-size: 1.1rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeInUp 1s ease 2s forwards;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(255, 158, 181, 0.4);
+    }
+    .splash-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 158, 181, 0.5);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    #main-content {
+      display: none;
+    }
+    #main-content.show {
+      display: block;
+    }
+
+    /* ===== NAVIGATION ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(255, 158, 181, 0.15);
+    }
+
+    .nav-brand {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: var(--pink-dark);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.75rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      background: linear-gradient(135deg, var(--pink), var(--yellow));
+      color: white;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      display: none;
+      padding: 80px 20px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeIn 0.5s ease;
+    }
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: var(--pink-dark);
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .section-title::after {
+      content: '🌸';
+      font-size: 1.2rem;
+      margin-left: 8px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ===== TIMETABLE ===== */
+    .timetable-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .time-slot {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      background: var(--pink-light);
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+    .time-slot:hover {
+      background: #ffe8ee;
+    }
+
+    .time-slot .time {
+      font-weight: 700;
+      color: var(--pink-dark);
+      min-width: 70px;
+      font-size: 0.85rem;
+    }
+
+    .time-slot input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: background 0.3s;
+    }
+    .time-slot input:focus {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .time-slot .delete-slot {
+      background: none;
+      border: none;
+      color: #ff6b8a;
+      cursor: pointer;
+      font-size: 1.2rem;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+    .time-slot .delete-slot:hover { opacity: 1; }
+
+    .add-slot-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: 2px dashed var(--pink);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--pink-dark);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    .add-slot-btn:hover {
+      background: var(--pink-light);
+      border-color: var(--pink-dark);
+    }
+
+    /* ===== PERIOD TRACKER ===== */
+    .period-tracker {
+      text-align: center;
+    }
+    .period-status {
+      font-size: 1.2rem;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 15px;
+      background: var(--pink-light);
+    }
+    .period-status .emoji { font-size: 2rem; }
+    .period-btn {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 5px;
+    }
+    .period-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(232, 112, 138, 0.4);
+    }
+    .period-btn.secondary {
+      background: var(--purple);
+    }
+
+    .period-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin: 15px 0;
+    }
+    .period-calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #f5f5f5;
+    }
+    .period-calendar-day.period {
+      background: var(--pink);
+      color: white;
+    }
+    .period-calendar-day.ovulation {
+      background: var(--purple);
+      color: white;
+    }
+    .period-calendar-day.today {
+      border: 2px solid var(--pink-dark);
+    }
+
+    /* ===== STUDY TRACKER ===== */
+    .plant-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .plant-pot {
+      position: relative;
+      width: 200px;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .plant-stem {
+      width: 6px;
+      background: linear-gradient(180deg, #4a7c3f, #2d5a27);
+      border-radius: 3px;
+      transition: height 0.5s ease;
+      position: relative;
+    }
+
+    .plant-leaves {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .plant-leaf {
+      position: absolute;
+      width: 30px;
+      height: 18px;
+      background: var(--green);
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    .plant-leaf.show { opacity: 1; }
+
+    .plant-flower {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #ffd93d, #ff9eb5);
+      border-radius: 50%;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: all 0.5s ease;
+      box-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+    }
+    .plant-flower.show { opacity: 1; }
+
+    .plant-pot-bottom {
+      width: 100px;
+      height: 40px;
+      background: linear-gradient(135deg, #d4a574, #b8834a);
+      border-radius: 0 0 15px 15px;
+      position: relative;
+      margin-top: auto;
+    }
+    .plant-pot-bottom::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -5px;
+      right: -5px;
+      height: 10px;
+      background: linear-gradient(135deg, #c4956a, #a07040);
+      border-radius: 5px 5px 0 0;
+    }
+
+    .study-form {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .study-form input {
+      padding: 10px 15px;
+      border: 2px solid var(--pink-light);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      width: 120px;
+      transition: border-color 0.3s;
+    }
+    .study-form input:focus {
+      border-color: var(--pink);
+    }
+    .study-form button {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--green), #4a9e5a);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .study-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(107, 203, 119, 0.4);
+    }
+
+    .plant-stats {
+      text-align: center;
+      margin: 10px 0;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* ===== NOTES ===== */
+    .notes-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .note-input-area {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .note-input-area textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 15px;
+      border: 2px solid var(--pink-light);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .note-input-area textarea:focus {
+      border-color: var(--pink);
+    }
+    .note-input-area button {
+      align-self: flex-end;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .note-input-area button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(232, 112, 138, 0.4);
+    }
+
+    .notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .note-item {
+      background: var(--yellow-light);
+      padding: 15px;
+      border-radius: 12px;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+    .note-item .note-date {
+      font-size: 0.75rem;
+      color: #999;
+    }
+    .note-item .note-text {
+      margin-top: 5px;
+      white-space: pre-wrap;
+    }
+    .note-item .delete-note {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #ff6b8a;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    /* ===== GALLERY ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      background: linear-gradient(135deg, var(--pink-light), var(--yellow-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-item:hover {
+      transform: scale(1.03);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gallery-item .placeholder-icon {
+      font-size: 2.5rem;
+      opacity: 0.5;
+    }
+    .gallery-item .delete-photo {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: #ff6b8a;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover .delete-photo { opacity: 1; }
+
+    .add-photo-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      border: 2px dashed var(--pink);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 2rem;
+      color: var(--pink);
+    }
+    .add-photo-btn:hover {
+      background: var(--pink-light);
+      border-color: var(--pink-dark);
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--pink), var(--yellow), var(--purple));
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 25px;
+      padding: 15px;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.5s ease;
+    }
+    .timeline-item::before {
+      content: '❤️';
+      position: absolute;
+      left: -28px;
+      top: 15px;
+      font-size: 0.8rem;
+    }
+    .timeline-item .tl-date {
+      font-size: 0.8rem;
+      color: var(--pink-dark);
+      font-weight: 600;
+    }
+    .timeline-item .tl-text {
+      margin-top: 5px;
+    }
+    .timeline-item .delete-tl {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #ff6b8a;
+      cursor: pointer;
+    }
+
+    .add-timeline-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .add-timeline-form input, .add-timeline-form textarea {
+      padding: 10px 15px;
+      border: 2px solid var(--pink-light);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .add-timeline-form input:focus, .add-timeline-form textarea:focus {
+      border-color: var(--pink);
+    }
+    .add-timeline-form button {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      align-self: flex-start;
+    }
+    .add-timeline-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(201, 177, 255, 0.4);
+    }
+
+    /* ===== SPOTIFY ===== */
+    .spotify-embed {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .spotify-embed iframe {
+      width: 100%;
+      height: 380px;
+      border: none;
+    }
+
+    /* ===== PERIOD CALENDAR ===== */
+    .period-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .period-header button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--pink-dark);
+      padding: 5px 10px;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+    .period-header button:hover {
+      background: var(--pink-light);
+    }
+    .period-header .month-year {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .day-names {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--pink-dark);
+      margin-bottom: 4px;
+    }
+
+    .period-log {
+      margin-top: 15px;
+      padding: 15px;
+      background: var(--pink-light);
+      border-radius: 12px;
+    }
+    .period-log label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .period-log input {
+      padding: 8px 12px;
+      border: 2px solid var(--pink);
+      border-radius: 8px;
+      font-family: 'Nunito', sans-serif;
+      margin: 5px 0;
+      outline: none;
+    }
+    .period-log .log-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    /* ===== TIMETABLE ===== */
+    .timetable-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .timetable-controls button {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .timetable-controls .save-btn {
+      background: linear-gradient(135deg, var(--green), #4a9e5a);
+      color: white;
+    }
+    .timetable-controls .reset-btn {
+      background: var(--pink-light);
+      color: var(--pink-dark);
+    }
+    .timetable-controls button:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ===== NAV ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 5px;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: var(--pink-dark);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        flex-direction: column;
+        padding: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-radius: 0 0 20px 20px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 15px; }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--pink-light); }
+    ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
+
+    /* ===== CONFETTI ===== */
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      z-index: 9998;
+      animation: confettiFall linear forwards;
+      pointer-events: none;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .section { padding: 70px 15px 30px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .splash-text { font-size: 1.8rem; }
+    }
+
+    /* ===== STUDY PLANT ===== */
+    .plant-growth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 300px;
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    .plant-growth-container .plant-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      height: 280px;
+      justify-content: flex-end;
+    }
+
+    .plant-growth-container .stem {
+      width: 8px;
+      background: linear-gradient(180deg, #6bcb77, #3d8b40);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.8s ease;
+      position: relative;
+    }
+
+    .plant-growth-container .leaf {
+      position: absolute;
+      width: 35px;
+      height: 20px;
+      background: var(--green);
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    .plant-growth-container .leaf.show { opacity: 1; }
+    .plant-growth-container .leaf.l { right: 100%; transform-origin: right center; }
+    .plant-growth-container .leaf.r { left: 100%; transform-origin: left center; transform: scaleX(-1); }
+
+    .plant-growth-container .flower-head {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #ffd93d, #ff9eb5);
+      border-radius: 50%;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: all 0.5s ease;
+      box-shadow: 0 0 15px rgba(255, 217, 61, 0.4);
+    }
+    .plant-growth-container .flower-head.show { opacity: 1; }
+
+    .study-history {
+      margin-top: 15px;
+    }
+    .study-history-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--green-light);
+      border-radius: 8px;
+      margin-bottom: 5px;
+      font-size: 0.85rem;
+    }
+
+    /* ===== HOME ===== */
+    .greeting {
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .greeting h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: var(--pink-dark);
+    }
+    .greeting p {
+      font-size: 1.1rem;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .stat-card {
+      text-align: center;
+      padding: 20px;
+      background: var(--card);
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+    }
+    .stat-card .stat-icon { font-size: 2rem; }
+    .stat-card .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--pink-dark); margin: 5px 0; }
+    .stat-card .stat-label { font-size: 0.85rem; color: #888; }
+
+    /* ===== PERIOD PREDICTION ===== */
+    .prediction-box {
+      background: linear-gradient(135deg, var(--pink-light), #fff);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      margin: 15px 0;
+    }
+    .prediction-box .days {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--pink-dark);
+    }
+    .prediction-box .label {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .cycle-history {
+      margin-top: 15px;
+    }
+    .cycle-entry {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--pink-light);
+      border-radius: 8px;
+      margin-bottom: 5px;
+      font-size: 0.85rem;
+    }
+
+    /* ===== FLOATING HEARTS ===== */
+    .floating-heart {
+      position: fixed;
+      font-size: 1.2rem;
+      pointer-events: none;
+      z-index: 999;
+      animation: heartFloat linear forwards;
+    }
+    @keyframes heartFloat {
+      0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg) scale(0); opacity: 0; }
+    }
+
+    /* ===== STUDY PLANT REFINED ===== */
+    .plant-scene {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      height: 320px;
+      justify-content: flex-end;
+    }
+
+    .plant-scene .pot {
+      width: 120px;
+      height: 50px;
+      background: linear-gradient(135deg, #d4a574, #b8834a);
+      border-radius: 0 0 20px 20px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .plant-scene .pot::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      height: 12px;
+      background: linear-gradient(135deg, #c4956a, #a07040);
+      border-radius: 5px 5px 0 0;
+    }
+    .plant-scene .pot-rim {
+      position: absolute;
+      top: -14px;
+      left: -12px;
+      right: -12px;
+      height: 8px;
+      background: linear-gradient(135deg, #d4a574, #b8834a);
+      border-radius: 4px 4px 0 0;
+    }
+
+    .plant-scene .plant-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .plant-scene .plant-stem {
+      width: 8px;
+      background: linear-gradient(180deg, #6bcb77, #3d8b40);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.8s ease;
+      position: relative;
+    }
+
+    .plant-scene .plant-leaf {
+      position: absolute;
+      width: 40px;
+      height: 22px;
+      background: var(--green);
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    .plant-scene .plant-leaf.show { opacity: 1; }
+    .plant-scene .plant-leaf.l { right: 100%; transform-origin: right center; }
+    .plant-scene .plant-leaf.r { left: 100%; transform-origin: left center; transform: scaleX(-1); }
+
+    .plant-scene .flower-top {
+      width: 28px;
+      height: 28px;
+      background: radial-gradient(circle, #ffd93d, #ff9eb5);
+      border-radius: 50%;
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: all 0.5s ease;
+      box-shadow: 0 0 15px rgba(255, 217, 61, 0.4);
+    }
+    .plant-scene .flower-top.show { opacity: 1; }
+
+    .plant-level {
+      font-size: 0.9rem;
+      color: var(--green);
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    /* ===== RESPONSIVE TIMETABLE ===== */
+    @media (max-width: 480px) {
+      .time-slot { flex-wrap: wrap; }
+      .time-slot .time { min-width: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash">
+  <div class="sunflower-container">
+    <div class="sunflower-stem"></div>
+    <div class="sunflower-leaf left"></div>
+    <div class="sunflower-leaf right"></div>
+    <div class="sunflower-center"></div>
+    <div class="sunflower-petal" style="--r: 0deg;"></div>
+    <div class="sunflower-petal" style="--r: 30deg;"></div>
+    <div class="sunflower-petal" style="--r: 60deg;"></div>
+    <div class="sunflower-petal" style="--r: 90deg;"></div>
+    <div class="sunflower-petal" style="--r: 120deg;"></div>
+    <div class="sunflower-petal" style="--r: 150deg;"></div>
+    <div class="sunflower-petal" style="--r: 180deg;"></div>
+    <div class="sunflower-petal" style="--r: 210deg;"></div>
+    <div class="sunflower-petal" style="--r: 240deg;"></div>
+    <div class="sunflower-petal" style="--r: 270deg;"></div>
+    <div class="sunflower-petal" style="--r: 300deg;"></div>
+    <div class="sunflower-petal" style="--r: 330deg;"></div>
+  </div>
+  <div class="splash-text">Welcome to Shreya's Space</div>
+  <div class="splash-sub">Made with love, just for you 💛</div>
+  <button class="splash-btn" onclick="enterSite()">Enter Your Space ✨</button>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div id="main-content">
+  <nav>
+    <div class="nav-brand">Shreya's Space 🌻</div>
+    <div class="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#" onclick="showSection('home')" class="active">Home</a>
+      <a href="#" onclick="showSection('timetable')">Timetable</a>
+      <a href="#" onclick="showSection('period')">Period</a>
+      <a href="#" onclick="showSection('study')">Study</a>
+      <a href="#" onclick="showSection('music')">Music</a>
+      <a href="#" onclick="showSection('notes')">Notes</a>
+      <a href="#" onclick="showSection('gallery')">Gallery</a>
+      <a href="#" onclick="showSection('timeline')">Timeline</a>
+    </div>
+  </nav>
+
+  <!-- HOME -->
+  <div id="section-home" class="section active">
+    <div class="greeting card">
+      <h1>Hey Shreya! 🌻</h1>
+      <p>You're amazing, and this is your little corner of the internet. Made just for you.</p>
+    </div>
+    <div class="quick-stats">
+      <div class="stat-card card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-value" id="totalStudyHours">0</div>
+        <div class="stat-label">Total Study Hours</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-icon">🌱</div>
+        <div class="stat-value" id="plantLevel">0</div>
+        <div class="stat-label">Plant Level</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value" id="totalNotes">0</div>
+        <div class="stat-label">Notes Written</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-icon">📸</div>
+        <div class="stat-value" id="totalPhotos">0</div>
+        <div class="stat-label">Photos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMETABLE -->
+  <div id="section-timetable" class="section">
+    <h2 class="section-title">Daily Timetable</h2>
+    <div class="card">
+      <div class="timetable-controls">
+        <button class="save-btn" onclick="saveTimetable()">💾 Save</button>
+        <button class="reset-btn" onclick="resetTimetable()">🔄 Reset</button>
+      </div>
+      <div class="timetable-grid" id="timetableGrid"></div>
+      <button class="add-slot-btn" onclick="addTimeSlot()">+ Add Task</button>
+    </div>
+  </div>
+
+  <!-- PERIOD TRACKER -->
+  <div id="section-period" class="section">
+    <h2 class="section-title">Period Tracker</h2>
+    <div class="card period-tracker">
+      <div class="period-header">
+        <button onclick="changeMonth(-1)">◀</button>
+        <span class="month-year" id="periodMonthYear"></span>
+        <button onclick="changeMonth(1)">▶</button>
+      </div>
+      <div class="day-names">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div class="period-calendar" id="periodCalendar"></div>
+
+      <div class="prediction-box">
+        <div id="predictionStatus">Log your first period to see predictions 🌸</div>
+      </div>
+
+      <div class="period-log">
+        <label>📅 Log your period start date:</label>
+        <input type="date" id="periodDateInput">
+        <div class="log-btns">
+          <button class="period-btn" onclick="logPeriod()">Log Period</button>
+          <button class="period-btn secondary" onclick="clearPeriods()">Clear All</button>
+        </div>
+        <div style="margin-top:10px;">
+          <strong>Cycle History:</strong>
+          <div id="cycleHistory"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDY TRACKER -->
+  <div id="section-study" class="section">
+    <h2 class="section-title">Study Tracker</h2>
+    <div class="card">
+      <div class="plant-scene">
+        <div class="plant-body" style="display:flex;flex-direction:column;align-items:center;">
+          <div class="plant-stem" id="plantStem" style="height: 0px;">
+            <div class="flower-top" id="plantFlower"></div>
+          </div>
+        </div>
+        <div class="pot">
+          <div class="pot-rim"></div>
+        </div>
+      </div>
+      <div class="plant-stats">
+        <div class="plant-level" id="plantLevelDisplay">🌱 Level 0</div>
+        <div style="font-size:0.85rem;color:#888;" id="plantNextLevel">0 / 5 hours to next level</div>
+      </div>
+      <div class="study-form">
+        <input type="number" id="studyHoursInput" placeholder="Hours studied" min="0" step="0.5">
+        <button onclick="logStudyHours()">🌱 Log Study Time</button>
+      </div>
+      <div class="study-history" id="studyHistory"></div>
+    </div>
+  </div>
+
+  <!-- MUSIC -->
+  <div id="section-music" class="section">
+    <h2 class="section-title">Music Time</h2>
+    <div class="card">
+      <p style="text-align:center;margin-bottom:15px;color:#888;">Your personal music corner 🎵</p>
+      <div class="spotify-embed">
+        <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <p style="text-align:center;margin-top:10px;font-size:0.85rem;color:#888;">🎵 Today's Top Hits — you can change the playlist anytime!</p>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div id="section-notes" class="section">
+    <h2 class="section-title">Notes</h2>
+    <div class="card">
+      <div class="note-input-area">
+        <textarea id="noteInput" placeholder="Write something beautiful... 💭"></textarea>
+        <button onclick="addNote()">💾 Save Note</button>
+      </div>
+      <div class="notes-list" id="notesList"></div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div id="section-gallery" class="section">
+    <h2 class="section-title">Gallery</h2>
+    <div class="card">
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="add-photo-btn" onclick="document.getElementById('photoInput').click()">
+          <span>+</span>
+        </div>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="addPhoto(event)">
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div id="section-timeline" class="section">
+    <h2 class="section-title">Timeline</h2>
+    <div class="card">
+      <div class="add-timeline-form">
+        <input type="date" id="tlDateInput">
+        <textarea id="tlTextInput" placeholder="What happened? Write your memory here..." rows="2"></textarea>
+        <button onclick="addTimelineEntry()">💾 Add Memory</button>
+      </div>
+      <div class="timeline" id="timelineContainer"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== NAVIGATION =====
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.querySelector(`.nav-links a[onclick*="'${id}'"]`)?.classList.add('active');
+    document.getElementById('navLinks').classList.remove('open');
+    if (id === 'period') renderPeriodCalendar();
+    if (id === 'study') renderStudy();
+    if (id === 'notes') renderNotes();
+    if (id === 'gallery') renderGallery();
+    if (id === 'timeline') renderTimeline();
+    if (id === 'timetable') renderTimetable();
+    if (id === 'home') updateHomeStats();
+  }
+
+  function enterSite() {
+    document.getElementById('splash').classList.add('hide');
+    setTimeout(() => {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('main-content').classList.add('show');
+      spawnHearts();
+      renderTimetable();
+      renderPeriodCalendar();
+      renderStudy();
+      renderNotes();
+      renderGallery();
+      renderTimeline();
+      updateHomeStats();
+    }, 1000);
+  }
+
+  // ===== FLOATING HEARTS =====
+  function spawnHearts() {
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.textContent = ['💛','❤️','🌸','✨','🌻','💕','💖'][Math.floor(Math.random()*7)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+      heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 8000);
+    }, 2000);
+  }
+
+  // ===== TIMETABLE =====
+  let timetableData = [];
+
+  function loadTimetable() {
+    const saved = localStorage.getItem('shreya_timetable');
+    if (saved) {
+      timetableData = JSON.parse(saved);
+    } else {
+      timetableData = [
+        { time: '06:00', task: '🌅 Wake up & freshen up' },
+        { time: '07:00', task: '📖 Study session 1' },
+        { time: '09:00', task: '🥣 Breakfast' },
+        { time: '10:00', task: '📚 Study session 2' },
+        { time: '12:00', task: '🍽️ Lunch' },
+        { time: '13:00', task: '😴 Rest / Nap' },
+        { time: '15:00', task: '📖 Study session 3' },
+        { time: '17:00', task: '🚶 Walk / Exercise' },
+        { time: '18:00', task: '🎵 Music / Relax' },
+        { time: '19:00', task: '🍜 Dinner' },
+        { time: '20:00', task: '📖 Light study / Reading' },
+        { time: '22:00', task: '🌙 Wind down & sleep' },
+      ];
+    }
+  }
+
+  function renderTimetable() {
+    loadTimetable();
+    const grid = document.getElementById('timetableGrid');
+    grid.innerHTML = '';
+    timetableData.forEach((slot, i) => {
+      const div = document.createElement('div');
+      div.className = 'time-slot';
+      div.innerHTML = `
+        <span class="time">${slot.time}</span>
+        <input type="text" value="${slot.task}" data-index="${i}" onchange="updateTask(${i}, this.value)">
+        <button class="delete-slot" onclick="deleteTimeSlot(${i})">✕</button>
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function updateTask(i, val) {
+    timetableData[i].task = val;
+  }
+
+  function addTimeSlot() {
+    timetableData.push({ time: '00:00', task: 'New task' });
+    renderTimetable();
+  }
+
+  function deleteTimeSlot(i) {
+    timetableData.splice(i, 1);
+    renderTimetable();
+  }
+
+  function saveTimetable() {
+    localStorage.setItem('shreya_timetable', JSON.stringify(timetableData));
+    alert('💾 Timetable saved!');
+  }
+
+  function resetTimetable() {
+    if (confirm('Reset timetable to default?')) {
+      localStorage.removeItem('shreya_timetable');
+      renderTimetable();
+    }
+  }
+
+  // ===== PERIOD TRACKER =====
+  let periodMonth = new Date().getMonth();
+  let periodYear = new Date().getFullYear();
+
+  function getPeriodData() {
+    return JSON.parse(localStorage.getItem('shreya_periods') || '[]');
+  }
+
+  function savePeriodData(data) {
+    localStorage.setItem('shreya_periods', JSON.stringify(data));
+  }
+
+  function getCycleLength() {
+    const periods = getPeriodData();
+    if (periods.length < 2) return 28;
+    let total = 0;
+    for (let i = 1; i < periods.length; i++) {
+      const d1 = new Date(periods[i-1]);
+      const d2 = new Date(periods[i]);
+      total += (d2 - d1) / (1000 * 60 * 60 * 24);
+    }
+    return Math.round(total / (periods.length - 1));
+  }
+
+  function renderPeriodCalendar() {
+    const periods = getPeriodData();
+    const firstDay = new Date(periodYear, periodMonth, 1).getDay();
+    const daysInMonth = new Date(periodYear, periodMonth + 1, 0).getDate();
+    const today = new Date();
+
+    document.getElementById('periodMonthYear').textContent =
+      new Date(periodYear, periodMonth).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+    const cal = document.getElementById('periodCalendar');
+    cal.innerHTML = '';
+
+    for (let i = 0; i < firstDay; i++) {
+      const d = document.createElement('div');
+      d.className = 'period-calendar-day';
+      cal.appendChild(d);
+    }
+
+    const cycleLen = getCycleLength();
+    let predictedDays = [];
+    if (periods.length > 0) {
+      const last = new Date(periods[periods.length - 1]);
+      let next = new Date(last);
+      next.setDate(next.getDate() + cycleLen);
+      for (let i = 0; i < 5; i++) {
+        for (let d = 0; d < 5; d++) {
+          const pd = new Date(next);
+          pd.setDate(pd.getDate() + d);
+          predictedDays.push(pd.toDateString());
+        }
+        next.setDate(next.getDate() + cycleLen);
+      }
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const div = document.createElement('div');
+      div.className = 'period-calendar-day';
+      const dateStr = new Date(periodYear, periodMonth, d).toDateString();
+      const isToday = new Date().toDateString() === dateStr;
+      if (isToday) div.classList.add('today');
+
+      const isPeriod = periods.some(p => new Date(p).toDateString() === dateStr);
+      if (isPeriod) div.classList.add('period');
+
+      if (predictedDays.includes(dateStr) && !isPeriod) {
+        div.classList.add('ovulation');
+      }
+
+      div.textContent = d;
+      cal.appendChild(div);
+    }
+
+    // Prediction
+    const predBox = document.getElementById('predictionStatus');
+    if (periods.length === 0) {
+      predBox.innerHTML = '🌸 Log your first period to see predictions!';
+    } else {
+      const last = new Date(periods[periods.length - 1]);
+      const next = new Date(last);
+      next.setDate(next.getDate() + cycleLen);
+      const today = new Date();
+      const diff = Math.ceil((next - today) / (1000 * 60 * 60 * 24));
+      if (diff < 0) {
+        predBox.innerHTML = `🔴 Your period might be late! Last was ${periods[periods.length-1]}`;
+      } else if (diff <= 5) {
+        predBox.innerHTML = `🔴 Period expected in <strong>${diff}</strong> day${diff > 1 ? 's' : ''}! Get ready 🌸`;
+      } else {
+        predBox.innerHTML = `🌸 Next period expected in <strong>${diff}</strong> days (around ${next.toLocaleDateString()})`;
+      }
+    }
+
+    // Cycle history
+    const histDiv = document.getElementById('cycleHistory');
+    if (periods.length === 0) {
+      histDiv.innerHTML = '<p style="color:#888;font-size:0.85rem;">No cycles logged yet</p>';
+    } else {
+      histDiv.innerHTML = periods.map((p, i) => {
+        const diff = i > 0 ? Math.round((new Date(p) - new Date(periods[i-1])) / (1000*60*60*24)) + ' days' : 'First';
+        return `<div class="cycle-entry"><span>${new Date(p).toLocaleDateString()}</span><span>${diff}</span></div>`;
+      }).join('');
+    }
+  }
+
+  function changeMonth(delta) {
+    periodMonth += delta;
+    if (periodMonth < 0) { periodMonth = 11; periodYear--; }
+    if (periodMonth > 11) { periodMonth = 0; periodYear++; }
+    renderPeriodCalendar();
+  }
+
+  function logPeriod() {
+    const input = document.getElementById('periodDateInput');
+    const date = input.value;
+    if (!date) { alert('Please select a date!'); return; }
+    const periods = getPeriodData();
+    if (!periods.includes(date)) {
+      periods.push(date);
+      periods.sort();
+      savePeriodData(periods);
+    }
+    renderPeriodCalendar();
+    input.value = '';
+  }
+
+  function clearPeriods() {
+    if (confirm('Clear all period data?')) {
+      savePeriodData([]);
+      renderPeriodCalendar();
+    }
+  }
+
+  // ===== STUDY TRACKER =====
+  function getStudyData() {
+    return JSON.parse(localStorage.getItem('shreya_study') || '{"total":0,"logs":[]}');
+  }
+
+  function saveStudyData(data) {
+    localStorage.setItem('shreya_study', JSON.stringify(data));
+  }
+
+  function logStudyHours() {
+    const input = document.getElementById('studyHoursInput');
+    const hours = parseFloat(input.value);
+    if (!hours || hours <= 0) { alert('Please enter valid hours!'); return; }
+    const data = getStudyData();
+    data.total += hours;
+    data.logs.push({ hours, date: new Date().toLocaleDateString() });
+    saveStudyData(data);
+    renderStudy();
+    updateHomeStats();
+    input.value = '';
+    spawnConfetti();
+  }
+
+  function renderStudy() {
+    const data = getStudyData();
+    const total = data.total;
+    const level = Math.floor(total / 5);
+    const nextLevel = (level + 1) * 5;
+    const progress = total - (level * 5);
+
+    document.getElementById('plantLevelDisplay').textContent =
+      level === 0 ? '🌱 Seedling' :
+      level < 3 ? '🌿 Sprouting' :
+      level < 6 ? '🌳 Growing' :
+      level < 10 ? '🌲 Flourishing' : '🌻 Blooming!';
+
+    const stem = document.querySelector('.plant-scene .plant-stem');
+    const stemHeight = Math.min(level * 25 + 10, 250);
+    stem.style.height = stemHeight + 'px';
+
+    // Leaves
+    const leaves = document.querySelectorAll('.plant-scene .plant-leaf');
+    leaves.forEach(l => l.remove());
+
+    const leafCount = Math.min(Math.floor(level / 1.5), 12);
+    for (let i = 0; i < leafCount; i++) {
+      const leaf = document.createElement('div');
+      leaf.className = 'plant-leaf show ' + (i % 2 === 0 ? 'l' : 'r');
+      const pos = 10 + (i * 20);
+      leaf.style.top = pos + 'px';
+      leaf.style.width = (25 + Math.min(i * 2, 20)) + 'px';
+      leaf.style.height = (14 + Math.min(i, 8)) + 'px';
+      stem.appendChild(leaf);
+    }
+
+    const flower = document.querySelector('.plant-scene .flower-top');
+    if (level >= 1) {
+      flower.classList.add('show');
+    } else {
+      flower.classList.remove('show');
+    }
+
+    document.getElementById('plantLevel').textContent = level;
+    document.getElementById('totalStudyHours').textContent = data.total.toFixed(1);
+
+    const nextLvl = document.getElementById('plantNextLevel');
+    if (nextLevel) {
+      nextLvl.textContent = `${progress.toFixed(1)} / 5 hours to next level`;
+    } else {
+      nextLvl.textContent = '🌻 Fully bloomed!';
+    }
+
+    // History
+    const hist = document.getElementById('studyHistory');
+    hist.innerHTML = data.logs.slice().reverse().slice(0, 20).map(l =>
+      `<div class="study-history-item"><span>${l.date}</span><span>📚 ${l.hours}h</span></div>`
+    ).join('');
+  }
+
+  // ===== NOTES =====
+  function getNotes() {
+    return JSON.parse(localStorage.getItem('shreya_notes') || '[]');
+  }
+
+  function saveNotes(notes) {
+    localStorage.setItem('shreya_notes', JSON.stringify(notes));
+  }
+
+  function addNote() {
+    const input = document.getElementById('noteInput');
+    const text = input.value.trim();
+    if (!text) { alert('Write something first!'); return; }
+    const notes = getNotes();
+    notes.unshift({ text, date: new Date().toLocaleString() });
+    saveNotes(notes);
+    renderNotes();
+    updateHomeStats();
+    input.value = '';
+  }
+
+  function deleteNote(i) {
+    const notes = getNotes();
+    notes.splice(i, 1);
+    saveNotes(notes);
+    renderNotes();
+    updateHomeStats();
+  }
+
+  function renderNotes() {
+    const notes = getNotes();
+    const list = document.getElementById('notesList');
+    if (notes.length === 0) {
+      list.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No notes yet. Write something beautiful! 💭</p>';
+      return;
+    }
+    list.innerHTML = notes.map((n, i) =>
+      `<div class="note-item">
+        <div class="note-date">${n.date}</div>
+        <div class="note-text">${n.text}</div>
+        <button class="delete-note" onclick="deleteNote(${i})">✕</button>
+      </div>`
+    ).join('');
+  }
+
+  // ===== GALLERY =====
+  function getGallery() {
+    return JSON.parse(localStorage.getItem('shreya_gallery') || '[]');
+  }
+
+  function saveGallery(g) {
+    localStorage.setItem('shreya_gallery', JSON.stringify(g));
+  }
+
+  function addPhoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const gallery = getGallery();
+      gallery.push(e.target.result);
+      saveGallery(gallery);
+      renderGallery();
+      updateHomeStats();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function deletePhoto(i) {
+    const gallery = getGallery();
+    gallery.splice(i, 1);
+    saveGallery(gallery);
+    renderGallery();
+    updateHomeStats();
+  }
+
+  function renderGallery() {
+    const gallery = getGallery();
+    const grid = document.getElementById('galleryGrid');
+    let html = '<div class="add-photo-btn" onclick="document.getElementById(\'photoInput\').click()"><span style="font-size:2rem;">+</span></div>';
+    gallery.forEach((img, i) => {
+      html += `<div class="gallery-item">
+        <img src="${img}" alt="Photo ${i+1}">
+        <button class="delete-photo" onclick="deletePhoto(${i})">✕</button>
+      </div>`;
+    });
+    grid.innerHTML = html;
+    document.getElementById('totalPhotos').textContent = gallery.length;
+  }
+
+  // ===== TIMELINE =====
+  function getTimeline() {
+    return JSON.parse(localStorage.getItem('shreya_timeline') || '[]');
+  }
+
+  function saveTimeline(tl) {
+    localStorage.setItem('shreya_timeline', JSON.stringify(tl));
+  }
+
+  function addTimelineEntry() {
+    const date = document.getElementById('tlDateInput').value;
+    const text = document.getElementById('tlTextInput').value.trim();
+    if (!date || !text) { alert('Please fill in both date and text!'); return; }
+    const tl = getTimeline();
+    tl.unshift({ date, text });
+    saveTimeline(tl);
+    renderTimeline();
+    document.getElementById('tlDateInput').value = '';
+    document.getElementById('tlTextInput').value = '';
+  }
+
+  function deleteTimelineEntry(i) {
+    const tl = getTimeline();
+    tl.splice(i, 1);
+    saveTimeline(tl);
+    renderTimeline();
+  }
+
+  function renderTimeline() {
+    const tl = getTimeline();
+    const container = document.getElementById('timelineContainer');
+    if (tl.length === 0) {
+      container.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No memories yet. Start adding! 💕</p>';
+      return;
+    }
+    container.innerHTML = tl.map((e, i) =>
+      `<div class="timeline-item">
+        <div class="tl-date">${new Date(e.date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</div>
+        <div class="tl-text">${e.text}</div>
+        <button class="delete-tl" onclick="deleteTimelineEntry(${i})">✕</button>
+      </div>`
+    ).join('');
+  }
+
+  // ===== CONFETTI =====
+  function spawnConfetti() {
+    const colors = ['#ff9eb5','#ffd93d','#c9b1ff','#6bcb77','#a0d2ff','#ff6b8a'];
+    for (let i = 0; i < 30; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.width = (5 + Math.random() * 8) + 'px';
+      piece.style.height = (5 + Math.random() * 8) + 'px';
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+      piece.style.animationDelay = Math.random() * 0.5 + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 5000);
+    }
+  }
+
+  // ===== HOME STATS =====
+  function updateHomeStats() {
+    const study = getStudyData();
+    const notes = getNotes();
+    const gallery = getGallery();
+    document.getElementById('totalStudyHours').textContent = study.total.toFixed(1);
+    document.getElementById('plantLevel').textContent = Math.floor(study.total / 5);
+    document.getElementById('totalNotes').textContent = notes.length;
+    document.getElementById('totalPhotos').textContent = gallery.length;
+  }
+
+  // ===== INIT =====
+  renderTimetable();
+  renderPeriodCalendar();
+  renderStudy();
+  renderNotes();
+  renderGallery();
+  renderTimeline();
+  updateHomeStats();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+
+</body>
+</html>
