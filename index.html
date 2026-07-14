@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#ff9eb5">
+  <meta name="theme-color" content="#f5f5f7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Shreya's Space">
@@ -12,1065 +12,564 @@
   <link rel="apple-touch-icon" href="icon-192.svg">
   <title>Shreya's Space</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --pink: #ff9eb5;
-      --pink-light: #ffd6e0;
-      --pink-dark: #e8708a;
-      --yellow: #ffd93d;
-      --yellow-light: #fff3b0;
-      --green: #6bcb77;
-      --green-light: #a8e6cf;
-      --purple: #c9b1ff;
-      --blue: #a0d2ff;
-      --bg: #fff5f7;
-      --card: #ffffff;
-      --text: #4a4a4a;
-      --shadow: 0 4px 20px rgba(255, 158, 181, 0.2);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --bg: #f5f5f7;
+      --card: rgba(255,255,255,0.85);
+      --card-border: rgba(255,255,255,0.5);
+      --text: #1d1d1f;
+      --text-secondary: #86868b;
+      --accent: #007AFF;
+      --accent-green: #34C759;
+      --accent-orange: #FF9500;
+      --accent-pink: #FF2D55;
+      --accent-purple: #AF52DE;
+      --accent-yellow: #FFCC00;
+      --accent-teal: #5AC8FA;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 4px 24px rgba(0,0,0,0.08);
+      --radius: 14px;
+      --radius-sm: 10px;
     }
 
     body {
-      font-family: 'Nunito', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: #1d1d1f;
       overflow-x: hidden;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ===== SPLASH SCREEN ===== */
+    /* ===== SPLASH ===== */
     #splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #fff5f7 0%, #ffe8b0 50%, #fff5f7 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      position: fixed; inset: 0;
+      background: #f5f5f7;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 9999;
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
-    #splash.hide {
+    #splash.hide { opacity: 0; transform: scale(1.05); pointer-events: none; }
+
+    .splash-sunflower {
+      font-size: 5rem;
+      animation: splashFloat 2.5s ease-in-out infinite;
+    }
+    @keyframes splashFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(-3deg); }
+      75% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    .splash-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      margin-top: 20px;
       opacity: 0;
-      transform: scale(1.1);
-      pointer-events: none;
+      animation: fadeUp 0.8s ease 0.5s forwards;
     }
-
-    .sunflower-container {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-
-    .sunflower-petal {
-      position: absolute;
-      width: 50px;
-      height: 80px;
-      background: linear-gradient(180deg, #ffd93d, #ff9eb5);
-      border-radius: 50% 50% 50% 50%;
-      top: 50%;
-      left: 50%;
-      transform-origin: bottom center;
-      opacity: 0;
-      animation: petalGrow 0.6s ease forwards;
-    }
-
-    .sunflower-petal:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg); animation-delay: 0.1s; }
-    .sunflower-petal:nth-child(2) { transform: translate(-50%, -100%) rotate(30deg); animation-delay: 0.15s; }
-    .sunflower-petal:nth-child(3) { transform: translate(-50%, -100%) rotate(60deg); animation-delay: 0.2s; }
-    .sunflower-petal:nth-child(4) { transform: translate(-50%, -100%) rotate(90deg); animation-delay: 0.25s; }
-    .sunflower-petal:nth-child(5) { transform: translate(-50%, -100%) rotate(120deg); animation-delay: 0.3s; }
-    .sunflower-petal:nth-child(6) { transform: translate(-50%, -100%) rotate(150deg); animation-delay: 0.35s; }
-    .sunflower-petal:nth-child(7) { transform: translate(-50%, -100%) rotate(180deg); animation-delay: 0.4s; }
-    .sunflower-petal:nth-child(8) { transform: translate(-50%, -100%) rotate(210deg); animation-delay: 0.45s; }
-    .sunflower-petal:nth-child(9) { transform: translate(-50%, -100%) rotate(240deg); animation-delay: 0.5s; }
-    .sunflower-petal:nth-child(10) { transform: translate(-50%, -100%) rotate(270deg); animation-delay: 0.55s; }
-    .sunflower-petal:nth-child(11) { transform: translate(-50%, -100%) rotate(300deg); animation-delay: 0.6s; }
-    .sunflower-petal:nth-child(12) { transform: translate(-50%, -100%) rotate(330deg); animation-delay: 0.65s; }
-
-    @keyframes petalGrow {
-      0% { transform: translate(-50%, -100%) scale(0) rotate(var(--r, 0deg)); opacity: 0; }
-      60% { transform: translate(-50%, -100%) scale(1.1) rotate(var(--r, 0deg)); opacity: 1; }
-      100% { transform: translate(-50%, -100%) scale(1) rotate(var(--r, 0deg)); opacity: 1; }
-    }
-
-    .sunflower-center {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      background: radial-gradient(circle, #5a3a1a, #3d2817);
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      box-shadow: 0 0 20px rgba(90, 58, 26, 0.3);
-    }
-
-    .sunflower-stem {
-      position: absolute;
-      width: 8px;
-      height: 120px;
-      background: linear-gradient(180deg, #4a7c3f, #2d5a27);
-      top: calc(50% + 30px);
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 4px;
-      animation: stemGrow 0.8s ease forwards;
-      transform-origin: top center;
-    }
-
-    @keyframes stemGrow {
-      0% { height: 0; }
-      100% { height: 120px; }
-    }
-
-    .sunflower-leaf {
-      position: absolute;
-      width: 30px;
-      height: 15px;
-      background: #6bcb77;
-      border-radius: 50% 0 50% 0;
-      top: calc(50% + 80px);
-    }
-    .sunflower-leaf.left { left: calc(50% - 35px); transform: rotate(-30deg); }
-    .sunflower-leaf.right { left: calc(50% + 5px); transform: rotate(30deg) scaleX(-1); }
-
-    .splash-text {
-      margin-top: 40px;
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.5rem;
-      color: #e8708a;
-      opacity: 0;
-      animation: fadeInUp 1s ease 1s forwards;
-    }
-
     .splash-sub {
-      font-family: 'Nunito', sans-serif;
       font-size: 1rem;
-      color: #c9b1ff;
-      margin-top: 10px;
+      color: #86868b;
+      margin-top: 8px;
       opacity: 0;
-      animation: fadeInUp 1s ease 1.5s forwards;
+      animation: fadeUp 0.8s ease 0.8s forwards;
     }
-
     .splash-btn {
       margin-top: 30px;
-      padding: 12px 40px;
+      padding: 14px 48px;
       border: none;
       border-radius: 50px;
-      background: linear-gradient(135deg, #ff9eb5, #ffd93d);
+      background: #1d1d1f;
       color: white;
-      font-size: 1.1rem;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 500;
       cursor: pointer;
       opacity: 0;
-      animation: fadeInUp 1s ease 2s forwards;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 15px rgba(255, 158, 181, 0.4);
+      animation: fadeUp 0.8s ease 1.2s forwards;
+      transition: all 0.3s;
     }
-    .splash-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(255, 158, 181, 0.5);
-    }
+    .splash-btn:hover { background: #2d2d2f; transform: translateY(-1px); }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== MAIN CONTENT ===== */
-    #main-content {
-      display: none;
-    }
-    #main-content.show {
-      display: block;
-    }
+    /* ===== MAIN ===== */
+    #main-content { display: none; }
+    #main-content.show { display: block; }
 
-    /* ===== NAVIGATION ===== */
+    /* ===== NAV ===== */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(245,245,247,0.85);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
+      padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between;
       z-index: 1000;
-      box-shadow: 0 2px 20px rgba(255, 158, 181, 0.15);
+      border-bottom: 0.5px solid rgba(0,0,0,0.08);
     }
-
     .nav-brand {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.5rem;
-      color: var(--pink-dark);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.3px;
     }
-
     .nav-links {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end;
     }
-
     .nav-links a {
       text-decoration: none;
-      color: var(--text);
+      color: #86868b;
       font-size: 0.75rem;
       padding: 6px 12px;
-      border-radius: 20px;
-      transition: all 0.3s;
-      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s;
+      font-weight: 500;
     }
-
     .nav-links a:hover, .nav-links a.active {
-      background: linear-gradient(135deg, var(--pink), var(--yellow));
+      background: #1d1d1f;
       color: white;
+    }
+    .hamburger {
+      display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 5px;
+    }
+    .hamburger span {
+      width: 22px; height: 2px; background: #1d1d1f; border-radius: 2px; transition: all 0.3s;
+    }
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+        flex-direction: column; padding: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border-radius: 0 0 16px 16px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 14px; font-size: 0.85rem; }
     }
 
     /* ===== SECTIONS ===== */
     .section {
-      display: none;
-      padding: 80px 20px 40px;
-      max-width: 900px;
-      margin: 0 auto;
-      animation: fadeIn 0.5s ease;
+      display: none; padding: 80px 16px 40px; max-width: 800px; margin: 0 auto;
+      animation: fadeIn 0.4s ease;
     }
-    .section.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
     .section-title {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2rem;
-      color: var(--pink-dark);
-      text-align: center;
-      margin-bottom: 30px;
-      position: relative;
-    }
-    .section-title::after {
-      content: '🌸';
-      font-size: 1.2rem;
-      margin-left: 8px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
     }
 
     .card {
-      background: var(--card);
-      border-radius: 20px;
-      padding: 25px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-2px);
-    }
-
-    /* ===== TIMETABLE ===== */
-    .timetable-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 0.5px solid rgba(255,255,255,0.6);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
 
-    .time-slot {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 15px;
-      background: var(--pink-light);
-      border-radius: 12px;
-      transition: all 0.3s;
-    }
-    .time-slot:hover {
-      background: #ffe8ee;
-    }
+    /* ===== HOME ===== */
+    .greeting { text-align: center; padding: 40px 20px; }
+    .greeting h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.5px; }
+    .greeting p { color: #86868b; margin-top: 8px; font-size: 1rem; }
 
-    .time-slot .time {
-      font-weight: 700;
-      color: var(--pink-dark);
-      min-width: 70px;
-      font-size: 0.85rem;
+    .quick-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;
     }
+    .stat-card {
+      text-align: center; padding: 20px; border-radius: 14px;
+      background: rgba(255,255,255,0.7); backdrop-filter: blur(20px);
+      border: 0.5px solid rgba(255,255,255,0.5);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .stat-card .stat-icon { font-size: 1.8rem; }
+    .stat-card .stat-value { font-size: 1.6rem; font-weight: 700; margin: 4px 0; }
+    .stat-card .stat-label { font-size: 0.8rem; color: #86868b; }
 
-    .time-slot input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: background 0.3s;
-    }
-    .time-slot input:focus {
-      background: rgba(255, 255, 255, 0.8);
-    }
-
-    .time-slot .delete-slot {
-      background: none;
-      border: none;
-      color: #ff6b8a;
-      cursor: pointer;
-      font-size: 1.2rem;
-      opacity: 0.5;
-      transition: opacity 0.3s;
-    }
-    .time-slot .delete-slot:hover { opacity: 1; }
-
-    .add-slot-btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      border: 2px dashed var(--pink);
-      border-radius: 12px;
-      background: transparent;
-      color: var(--pink-dark);
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 10px;
-    }
-    .add-slot-btn:hover {
-      background: var(--pink-light);
-      border-color: var(--pink-dark);
-    }
-
-    /* ===== PERIOD TRACKER ===== */
-    .period-tracker {
-      text-align: center;
-    }
-    .period-status {
-      font-size: 1.2rem;
-      margin: 15px 0;
-      padding: 15px;
-      border-radius: 15px;
-      background: var(--pink-light);
-    }
-    .period-status .emoji { font-size: 2rem; }
-    .period-btn {
-      padding: 10px 25px;
-      border: none;
-      border-radius: 25px;
-      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
-      color: white;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin: 5px;
-    }
-    .period-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(232, 112, 138, 0.4);
-    }
-    .period-btn.secondary {
-      background: var(--purple);
-    }
-
-    .period-calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin: 15px 0;
-    }
-    .period-calendar-day {
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: #f5f5f5;
-    }
-    .period-calendar-day.period {
-      background: var(--pink);
-      color: white;
-    }
-    .period-calendar-day.ovulation {
-      background: var(--purple);
-      color: white;
-    }
-    .period-calendar-day.today {
-      border: 2px solid var(--pink-dark);
-    }
-
-    /* ===== STUDY TRACKER ===== */
-    .plant-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .plant-pot {
+    /* ===== MORGEN-STYLE TIMETABLE ===== */
+    .timeline-container {
       position: relative;
-      width: 200px;
-      height: 250px;
+      padding-left: 60px;
+    }
+
+    .timeline-hours {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+    }
+
+    .timeline-hour {
+      height: 60px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: flex-end;
-    }
-
-    .plant-stem {
-      width: 6px;
-      background: linear-gradient(180deg, #4a7c3f, #2d5a27);
-      border-radius: 3px;
-      transition: height 0.5s ease;
+      padding-right: 10px;
+      font-size: 0.75rem;
+      color: #86868b;
+      font-weight: 500;
       position: relative;
     }
-
-    .plant-leaves {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    .plant-leaf {
-      position: absolute;
-      width: 30px;
-      height: 18px;
-      background: var(--green);
-      border-radius: 50% 0 50% 0;
-      opacity: 0;
-      transition: all 0.5s ease;
-    }
-    .plant-leaf.show { opacity: 1; }
-
-    .plant-flower {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle, #ffd93d, #ff9eb5);
-      border-radius: 50%;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: all 0.5s ease;
-      box-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
-    }
-    .plant-flower.show { opacity: 1; }
-
-    .plant-pot-bottom {
-      width: 100px;
-      height: 40px;
-      background: linear-gradient(135deg, #d4a574, #b8834a);
-      border-radius: 0 0 15px 15px;
-      position: relative;
-      margin-top: auto;
-    }
-    .plant-pot-bottom::before {
+    .timeline-hour::after {
       content: '';
       position: absolute;
-      top: -8px;
-      left: -5px;
-      right: -5px;
-      height: 10px;
-      background: linear-gradient(135deg, #c4956a, #a07040);
-      border-radius: 5px 5px 0 0;
+      right: -10px;
+      top: 0;
+      width: calc(100vw - 80px);
+      max-width: 740px;
+      height: 0.5px;
+      background: rgba(0,0,0,0.06);
     }
+
+    .timeline-blocks {
+      position: relative;
+      min-height: 600px;
+    }
+
+    .time-block {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+      z-index: 2;
+    }
+    .time-block:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.12); z-index: 3; }
+    .time-block .block-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: white;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .time-block .block-time {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.8);
+      margin-top: 2px;
+    }
+    .time-block .resize-handle {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      cursor: ns-resize;
+      background: transparent;
+    }
+    .time-block .resize-handle::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 3px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 2px;
+    }
+    .time-block .block-delete {
+      position: absolute;
+      top: 4px; right: 6px;
+      background: rgba(0,0,0,0.2);
+      border: none;
+      border-radius: 50%;
+      width: 18px; height: 18px;
+      color: white;
+      font-size: 0.6rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .time-block:hover .block-delete { opacity: 1; }
+
+    .timetable-toolbar {
+      display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center;
+    }
+    .timetable-toolbar button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(0,0,0,0.05);
+      color: #1d1d1f;
+    }
+    .timetable-toolbar button:hover { background: rgba(0,0,0,0.1); }
+    .timetable-toolbar button.primary { background: #1d1d1f; color: white; }
+    .timetable-toolbar button.primary:hover { background: #2d2d2f; }
+
+    .category-picker {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .category-picker button {
+      padding: 6px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      opacity: 0.6;
+    }
+    .category-picker button.active { opacity: 1; transform: scale(1.05); }
+    .category-picker button:hover { opacity: 0.9; }
+
+    .cat-study { background: #007AFF; color: white; }
+    .cat-rest { background: #34C759; color: white; }
+    .cat-meal { background: #FF9500; color: white; }
+    .cat-self { background: #FF2D55; color: white; }
+    .cat-fun { background: #AF52DE; color: white; }
+    .cat-other { background: #8E8E93; color: white; }
+
+    .add-block-form {
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px;
+    }
+    .add-block-form select, .add-block-form input {
+      padding: 8px 12px;
+      border: 0.5px solid rgba(0,0,0,0.1);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.8);
+      outline: none;
+      font-family: inherit;
+    }
+    .add-block-form select:focus, .add-block-form input:focus {
+      border-color: #007AFF;
+    }
+    .add-block-form button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #1d1d1f;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* ===== PERIOD ===== */
+    .period-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+    }
+    .period-header button {
+      background: none; border: none; font-size: 1.2rem; cursor: pointer;
+      color: #1d1d1f; padding: 4px 12px; border-radius: 8px;
+    }
+    .period-header button:hover { background: rgba(0,0,0,0.05); }
+    .period-header .month-year { font-weight: 600; font-size: 1rem; }
+
+    .day-names {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
+      text-align: center; font-size: 0.7rem; font-weight: 600; color: #86868b; margin-bottom: 4px;
+    }
+    .period-calendar {
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
+    }
+    .period-calendar-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; font-size: 0.8rem; font-weight: 500; background: transparent;
+    }
+    .period-calendar-day.period { background: #FF2D55; color: white; }
+    .period-calendar-day.ovulation { background: #AF52DE; color: white; }
+    .period-calendar-day.today { border: 1.5px solid #1d1d1f; }
+
+    .prediction-box {
+      background: rgba(0,0,0,0.03); border-radius: 12px; padding: 16px; text-align: center; margin: 12px 0;
+    }
+    .prediction-box .days { font-size: 2rem; font-weight: 700; }
+    .prediction-box .label { font-size: 0.85rem; color: #86868b; }
+
+    .period-log { margin-top: 12px; }
+    .period-log label { font-size: 0.85rem; font-weight: 500; }
+    .period-log input { padding: 8px 12px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 8px; margin: 6px 0; outline: none; font-family: inherit; }
+    .period-log .log-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .period-log button {
+      padding: 8px 20px; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: 500; cursor: pointer;
+      background: #1d1d1f; color: white; transition: all 0.2s;
+    }
+    .period-log button:hover { background: #2d2d2f; }
+    .period-log button.secondary { background: rgba(0,0,0,0.05); color: #1d1d1f; }
+    .period-log button.secondary:hover { background: rgba(0,0,0,0.1); }
+
+    .cycle-entry {
+      display: flex; justify-content: space-between; padding: 6px 10px;
+      background: rgba(0,0,0,0.03); border-radius: 8px; margin-bottom: 4px; font-size: 0.8rem;
+    }
+
+    /* ===== STUDY ===== */
+    .plant-scene {
+      display: flex; flex-direction: column; align-items: center; position: relative;
+      height: 300px; justify-content: flex-end;
+    }
+    .plant-scene .pot {
+      width: 110px; height: 44px;
+      background: linear-gradient(135deg, #d4a574, #b8834a);
+      border-radius: 0 0 18px 18px; position: relative; z-index: 2;
+    }
+    .plant-scene .pot::before {
+      content: ''; position: absolute; top: -8px; left: -6px; right: -6px; height: 10px;
+      background: linear-gradient(135deg, #c4956a, #a07040); border-radius: 4px 4px 0 0;
+    }
+    .plant-scene .plant-stem {
+      width: 8px;
+      background: linear-gradient(180deg, #34C759, #248a3d);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.8s ease;
+      position: relative;
+    }
+    .plant-scene .plant-leaf {
+      position: absolute; width: 36px; height: 20px; background: #34C759;
+      border-radius: 50% 0 50% 0; opacity: 0; transition: all 0.5s ease;
+    }
+    .plant-scene .plant-leaf.show { opacity: 1; }
+    .plant-scene .plant-leaf.l { right: 100%; transform-origin: right center; }
+    .plant-scene .plant-leaf.r { left: 100%; transform-origin: left center; transform: scaleX(-1); }
+    .plant-scene .flower-top {
+      width: 26px; height: 26px;
+      background: radial-gradient(circle, #FFCC00, #FF9500);
+      border-radius: 50%; position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      opacity: 0; transition: all 0.5s ease; box-shadow: 0 0 12px rgba(255,204,0,0.3);
+    }
+    .plant-scene .flower-top.show { opacity: 1; }
 
     .study-form {
-      display: flex;
-      gap: 10px;
-      margin: 15px 0;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; justify-content: center;
     }
     .study-form input {
-      padding: 10px 15px;
-      border: 2px solid var(--pink-light);
-      border-radius: 12px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 1rem;
-      outline: none;
-      width: 120px;
-      transition: border-color 0.3s;
+      padding: 10px 14px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 10px;
+      font-size: 0.9rem; outline: none; width: 120px; font-family: inherit;
     }
-    .study-form input:focus {
-      border-color: var(--pink);
-    }
+    .study-form input:focus { border-color: #007AFF; }
     .study-form button {
-      padding: 10px 25px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--green), #4a9e5a);
-      color: white;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
+      padding: 10px 24px; border: none; border-radius: 10px;
+      background: #34C759; color: white; font-size: 0.85rem; font-weight: 500; cursor: pointer;
     }
-    .study-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(107, 203, 119, 0.4);
+    .study-form button:hover { background: #28a745; }
+
+    .study-history-item {
+      display: flex; justify-content: space-between; padding: 6px 10px;
+      background: rgba(52,199,89,0.08); border-radius: 8px; margin-bottom: 4px; font-size: 0.8rem;
     }
 
-    .plant-stats {
-      text-align: center;
-      margin: 10px 0;
-      color: var(--green);
-      font-weight: 600;
-    }
+    /* ===== MUSIC ===== */
+    .spotify-embed { border-radius: 14px; overflow: hidden; }
+    .spotify-embed iframe { width: 100%; height: 380px; border: none; }
 
     /* ===== NOTES ===== */
-    .notes-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .note-input-area {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
     .note-input-area textarea {
-      width: 100%;
-      min-height: 100px;
-      padding: 15px;
-      border: 2px solid var(--pink-light);
-      border-radius: 12px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.95rem;
-      resize: vertical;
-      outline: none;
-      transition: border-color 0.3s;
+      width: 100%; min-height: 100px; padding: 14px;
+      border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px;
+      font-size: 0.9rem; resize: vertical; outline: none; font-family: inherit;
+      background: rgba(255,255,255,0.5);
     }
-    .note-input-area textarea:focus {
-      border-color: var(--pink);
-    }
+    .note-input-area textarea:focus { border-color: #007AFF; }
     .note-input-area button {
-      align-self: flex-end;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
-      color: white;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .note-input-area button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(232, 112, 138, 0.4);
-    }
-
-    .notes-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
+      padding: 10px 24px; border: none; border-radius: 10px;
+      background: #1d1d1f; color: white; font-size: 0.85rem; font-weight: 500; cursor: pointer;
+      margin-top: 8px; float: right;
     }
     .note-item {
-      background: var(--yellow-light);
-      padding: 15px;
-      border-radius: 12px;
-      position: relative;
-      animation: fadeIn 0.3s ease;
+      background: rgba(0,0,0,0.03); padding: 14px; border-radius: 12px; position: relative;
+      margin-bottom: 8px; animation: fadeIn 0.3s ease;
     }
-    .note-item .note-date {
-      font-size: 0.75rem;
-      color: #999;
-    }
-    .note-item .note-text {
-      margin-top: 5px;
-      white-space: pre-wrap;
-    }
+    .note-item .note-date { font-size: 0.7rem; color: #86868b; }
+    .note-item .note-text { margin-top: 4px; white-space: pre-wrap; font-size: 0.9rem; }
     .note-item .delete-note {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      background: none;
-      border: none;
-      color: #ff6b8a;
-      cursor: pointer;
-      font-size: 1.1rem;
+      position: absolute; top: 8px; right: 10px;
+      background: none; border: none; color: #FF2D55; cursor: pointer; font-size: 0.9rem;
     }
 
     /* ===== GALLERY ===== */
     .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 15px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;
     }
     .gallery-item {
-      aspect-ratio: 1;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      transition: all 0.3s;
-      position: relative;
-      background: linear-gradient(135deg, var(--pink-light), var(--yellow-light));
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      aspect-ratio: 1; border-radius: 12px; overflow: hidden;
+      cursor: pointer; transition: all 0.2s; position: relative;
+      background: rgba(0,0,0,0.03);
     }
-    .gallery-item:hover {
-      transform: scale(1.03);
-    }
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .gallery-item .placeholder-icon {
-      font-size: 2.5rem;
-      opacity: 0.5;
-    }
+    .gallery-item:hover { transform: scale(1.02); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
     .gallery-item .delete-photo {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: rgba(255, 255, 255, 0.8);
-      border: none;
-      border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      color: #ff6b8a;
-      opacity: 0;
-      transition: opacity 0.3s;
+      position: absolute; top: 4px; right: 4px;
+      background: rgba(0,0,0,0.4); border: none; border-radius: 50%;
+      width: 24px; height: 24px; color: white; cursor: pointer; font-size: 0.7rem;
+      opacity: 0; transition: opacity 0.2s;
     }
     .gallery-item:hover .delete-photo { opacity: 1; }
-
     .add-photo-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      aspect-ratio: 1;
-      border: 2px dashed var(--pink);
-      border-radius: 15px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 2rem;
-      color: var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      aspect-ratio: 1; border: 1px dashed rgba(0,0,0,0.15); border-radius: 12px;
+      cursor: pointer; transition: all 0.2s; font-size: 1.8rem; color: #86868b;
     }
-    .add-photo-btn:hover {
-      background: var(--pink-light);
-      border-color: var(--pink-dark);
-    }
+    .add-photo-btn:hover { background: rgba(0,0,0,0.03); border-color: #007AFF; color: #007AFF; }
 
     /* ===== TIMELINE ===== */
-    .timeline {
-      position: relative;
-      padding-left: 30px;
-    }
+    .timeline { position: relative; padding-left: 24px; }
     .timeline::before {
-      content: '';
-      position: absolute;
-      left: 10px;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, var(--pink), var(--yellow), var(--purple));
-      border-radius: 2px;
+      content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+      width: 2px; background: rgba(0,0,0,0.08); border-radius: 1px;
     }
     .timeline-item {
-      position: relative;
-      margin-bottom: 25px;
-      padding: 15px;
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      animation: fadeIn 0.5s ease;
+      position: relative; margin-bottom: 20px; padding: 14px;
+      background: rgba(255,255,255,0.7); border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
     .timeline-item::before {
-      content: '❤️';
-      position: absolute;
-      left: -28px;
-      top: 15px;
-      font-size: 0.8rem;
+      content: '❤️'; position: absolute; left: -22px; top: 14px; font-size: 0.7rem;
     }
-    .timeline-item .tl-date {
-      font-size: 0.8rem;
-      color: var(--pink-dark);
-      font-weight: 600;
-    }
-    .timeline-item .tl-text {
-      margin-top: 5px;
-    }
-    .timeline-item .delete-tl {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      background: none;
-      border: none;
-      color: #ff6b8a;
-      cursor: pointer;
-    }
+    .timeline-item .tl-date { font-size: 0.75rem; color: #86868b; font-weight: 500; }
+    .timeline-item .tl-text { margin-top: 4px; font-size: 0.9rem; }
+    .timeline-item .delete-tl { position: absolute; top: 8px; right: 10px; background: none; border: none; color: #FF2D55; cursor: pointer; }
 
-    .add-timeline-form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+    .add-timeline-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
     .add-timeline-form input, .add-timeline-form textarea {
-      padding: 10px 15px;
-      border: 2px solid var(--pink-light);
-      border-radius: 12px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.95rem;
-      outline: none;
+      padding: 10px 14px; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 10px;
+      font-size: 0.85rem; outline: none; font-family: inherit; background: rgba(255,255,255,0.5);
     }
-    .add-timeline-form input:focus, .add-timeline-form textarea:focus {
-      border-color: var(--pink);
-    }
+    .add-timeline-form input:focus, .add-timeline-form textarea:focus { border-color: #007AFF; }
     .add-timeline-form button {
-      padding: 10px 25px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
-      color: white;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
+      padding: 10px 24px; border: none; border-radius: 10px;
+      background: #1d1d1f; color: white; font-size: 0.85rem; font-weight: 500; cursor: pointer;
       align-self: flex-start;
     }
-    .add-timeline-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(201, 177, 255, 0.4);
-    }
 
-    /* ===== SPOTIFY ===== */
-    .spotify-embed {
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    .spotify-embed iframe {
-      width: 100%;
-      height: 380px;
-      border: none;
-    }
+    /* ===== MISC ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
 
-    /* ===== PERIOD CALENDAR ===== */
-    .period-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-    }
-    .period-header button {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--pink-dark);
-      padding: 5px 10px;
-      border-radius: 10px;
-      transition: background 0.3s;
-    }
-    .period-header button:hover {
-      background: var(--pink-light);
-    }
-    .period-header .month-year {
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    .day-names {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      text-align: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--pink-dark);
-      margin-bottom: 4px;
-    }
-
-    .period-log {
-      margin-top: 15px;
-      padding: 15px;
-      background: var(--pink-light);
-      border-radius: 12px;
-    }
-    .period-log label {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .period-log input {
-      padding: 8px 12px;
-      border: 2px solid var(--pink);
-      border-radius: 8px;
-      font-family: 'Nunito', sans-serif;
-      margin: 5px 0;
-      outline: none;
-    }
-    .period-log .log-btns {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    /* ===== TIMETABLE ===== */
-    .timetable-controls {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-    .timetable-controls button {
-      padding: 8px 20px;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .timetable-controls .save-btn {
-      background: linear-gradient(135deg, var(--green), #4a9e5a);
-      color: white;
-    }
-    .timetable-controls .reset-btn {
-      background: var(--pink-light);
-      color: var(--pink-dark);
-    }
-    .timetable-controls button:hover {
-      transform: translateY(-2px);
-    }
-
-    /* ===== NAV ===== */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      cursor: pointer;
-      padding: 5px;
-    }
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: var(--pink-dark);
-      border-radius: 2px;
-      transition: all 0.3s;
-    }
-
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.98);
-        flex-direction: column;
-        padding: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border-radius: 0 0 20px 20px;
-      }
-      .nav-links.open { display: flex; }
-      .nav-links a { padding: 10px 15px; }
-    }
-
-    /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--pink-light); }
-    ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
-
-    /* ===== CONFETTI ===== */
     .confetti-piece {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      top: -10px;
-      z-index: 9998;
-      animation: confettiFall linear forwards;
-      pointer-events: none;
+      position: fixed; width: 8px; height: 8px; top: -10px; z-index: 9998;
+      animation: confettiFall linear forwards; pointer-events: none;
     }
     @keyframes confettiFall {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
       100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 600px) {
-      .section { padding: 70px 15px 30px; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-      .splash-text { font-size: 1.8rem; }
-    }
-
-    /* ===== STUDY PLANT ===== */
-    .plant-growth-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 300px;
-      justify-content: flex-end;
-      position: relative;
-    }
-
-    .plant-growth-container .plant-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      height: 280px;
-      justify-content: flex-end;
-    }
-
-    .plant-growth-container .stem {
-      width: 8px;
-      background: linear-gradient(180deg, #6bcb77, #3d8b40);
-      border-radius: 4px 4px 0 0;
-      transition: height 0.8s ease;
-      position: relative;
-    }
-
-    .plant-growth-container .leaf {
-      position: absolute;
-      width: 35px;
-      height: 20px;
-      background: var(--green);
-      border-radius: 50% 0 50% 0;
-      opacity: 0;
-      transition: all 0.5s ease;
-    }
-    .plant-growth-container .leaf.show { opacity: 1; }
-    .plant-growth-container .leaf.l { right: 100%; transform-origin: right center; }
-    .plant-growth-container .leaf.r { left: 100%; transform-origin: left center; transform: scaleX(-1); }
-
-    .plant-growth-container .flower-head {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      background: radial-gradient(circle, #ffd93d, #ff9eb5);
-      border-radius: 50%;
-      top: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: all 0.5s ease;
-      box-shadow: 0 0 15px rgba(255, 217, 61, 0.4);
-    }
-    .plant-growth-container .flower-head.show { opacity: 1; }
-
-    .study-history {
-      margin-top: 15px;
-    }
-    .study-history-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 12px;
-      background: var(--green-light);
-      border-radius: 8px;
-      margin-bottom: 5px;
-      font-size: 0.85rem;
-    }
-
-    /* ===== HOME ===== */
-    .greeting {
-      text-align: center;
-      padding: 30px 20px;
-    }
-    .greeting h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.5rem;
-      color: var(--pink-dark);
-    }
-    .greeting p {
-      font-size: 1.1rem;
-      color: #888;
-      margin-top: 10px;
-    }
-
-    .quick-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .stat-card {
-      text-align: center;
-      padding: 20px;
-      background: var(--card);
-      border-radius: 15px;
-      box-shadow: var(--shadow);
-    }
-    .stat-card .stat-icon { font-size: 2rem; }
-    .stat-card .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--pink-dark); margin: 5px 0; }
-    .stat-card .stat-label { font-size: 0.85rem; color: #888; }
-
-    /* ===== PERIOD PREDICTION ===== */
-    .prediction-box {
-      background: linear-gradient(135deg, var(--pink-light), #fff);
-      border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-      margin: 15px 0;
-    }
-    .prediction-box .days {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--pink-dark);
-    }
-    .prediction-box .label {
-      font-size: 0.9rem;
-      color: #888;
-    }
-
-    .cycle-history {
-      margin-top: 15px;
-    }
-    .cycle-entry {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 12px;
-      background: var(--pink-light);
-      border-radius: 8px;
-      margin-bottom: 5px;
-      font-size: 0.85rem;
-    }
-
-    /* ===== FLOATING HEARTS ===== */
     .floating-heart {
-      position: fixed;
-      font-size: 1.2rem;
-      pointer-events: none;
-      z-index: 999;
+      position: fixed; font-size: 1rem; pointer-events: none; z-index: 999;
       animation: heartFloat linear forwards;
     }
     @keyframes heartFloat {
@@ -1078,139 +577,90 @@
       100% { transform: translateY(-100vh) rotate(360deg) scale(0); opacity: 0; }
     }
 
-    /* ===== STUDY PLANT REFINED ===== */
-    .plant-scene {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      height: 320px;
-      justify-content: flex-end;
+    @media (max-width: 600px) {
+      .section { padding: 70px 12px 30px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .splash-title { font-size: 1.6rem; }
     }
 
-    .plant-scene .pot {
-      width: 120px;
-      height: 50px;
-      background: linear-gradient(135deg, #d4a574, #b8834a);
-      border-radius: 0 0 20px 20px;
+    /* ===== TIMETABLE BLOCK COLORS ===== */
+    .block-study { background: #007AFF; }
+    .block-rest { background: #34C759; }
+    .block-meal { background: #FF9500; }
+    .block-self { background: #FF2D55; }
+    .block-fun { background: #AF52DE; }
+    .block-other { background: #8E8E93; }
+
+    .timetable-wrapper {
       position: relative;
-      z-index: 2;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding-left: 56px;
     }
-    .plant-scene .pot::before {
+
+    .hour-labels {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 48px;
+    }
+
+    .hour-label {
+      height: 60px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding-right: 8px;
+      font-size: 0.7rem;
+      color: #86868b;
+      font-weight: 500;
+      position: relative;
+    }
+    .hour-label::after {
       content: '';
       position: absolute;
-      top: -8px;
-      left: -8px;
-      right: -8px;
-      height: 12px;
-      background: linear-gradient(135deg, #c4956a, #a07040);
-      border-radius: 5px 5px 0 0;
-    }
-    .plant-scene .pot-rim {
-      position: absolute;
-      top: -14px;
-      left: -12px;
-      right: -12px;
-      height: 8px;
-      background: linear-gradient(135deg, #d4a574, #b8834a);
-      border-radius: 4px 4px 0 0;
+      right: 0;
+      top: 0;
+      width: calc(100vw - 100px);
+      max-width: 700px;
+      height: 0.5px;
+      background: rgba(0,0,0,0.06);
     }
 
-    .plant-scene .plant-body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .blocks-area {
       position: relative;
+      min-height: 720px;
     }
 
-    .plant-scene .plant-stem {
-      width: 8px;
-      background: linear-gradient(180deg, #6bcb77, #3d8b40);
-      border-radius: 4px 4px 0 0;
-      transition: height 0.8s ease;
-      position: relative;
-    }
-
-    .plant-scene .plant-leaf {
-      position: absolute;
-      width: 40px;
-      height: 22px;
-      background: var(--green);
-      border-radius: 50% 0 50% 0;
-      opacity: 0;
-      transition: all 0.5s ease;
-    }
-    .plant-scene .plant-leaf.show { opacity: 1; }
-    .plant-scene .plant-leaf.l { right: 100%; transform-origin: right center; }
-    .plant-scene .plant-leaf.r { left: 100%; transform-origin: left center; transform: scaleX(-1); }
-
-    .plant-scene .flower-top {
-      width: 28px;
-      height: 28px;
-      background: radial-gradient(circle, #ffd93d, #ff9eb5);
-      border-radius: 50%;
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: all 0.5s ease;
-      box-shadow: 0 0 15px rgba(255, 217, 61, 0.4);
-    }
-    .plant-scene .flower-top.show { opacity: 1; }
-
-    .plant-level {
-      font-size: 0.9rem;
-      color: var(--green);
+    .time-block .block-edit {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 0.85rem;
       font-weight: 600;
-      margin-top: 5px;
+      width: 100%;
+      outline: none;
+      font-family: inherit;
     }
-
-    /* ===== RESPONSIVE TIMETABLE ===== */
-    @media (max-width: 480px) {
-      .time-slot { flex-wrap: wrap; }
-      .time-slot .time { min-width: 60px; }
-    }
+    .time-block .block-edit::placeholder { color: rgba(255,255,255,0.6); }
   </style>
 </head>
 <body>
 
-<!-- ===== SPLASH SCREEN ===== -->
 <div id="splash">
-  <div class="sunflower-container">
-    <div class="sunflower-stem"></div>
-    <div class="sunflower-leaf left"></div>
-    <div class="sunflower-leaf right"></div>
-    <div class="sunflower-center"></div>
-    <div class="sunflower-petal" style="--r: 0deg;"></div>
-    <div class="sunflower-petal" style="--r: 30deg;"></div>
-    <div class="sunflower-petal" style="--r: 60deg;"></div>
-    <div class="sunflower-petal" style="--r: 90deg;"></div>
-    <div class="sunflower-petal" style="--r: 120deg;"></div>
-    <div class="sunflower-petal" style="--r: 150deg;"></div>
-    <div class="sunflower-petal" style="--r: 180deg;"></div>
-    <div class="sunflower-petal" style="--r: 210deg;"></div>
-    <div class="sunflower-petal" style="--r: 240deg;"></div>
-    <div class="sunflower-petal" style="--r: 270deg;"></div>
-    <div class="sunflower-petal" style="--r: 300deg;"></div>
-    <div class="sunflower-petal" style="--r: 330deg;"></div>
-  </div>
-  <div class="splash-text">Welcome to Shreya's Space</div>
-  <div class="splash-sub">Made with love, just for you 💛</div>
-  <button class="splash-btn" onclick="enterSite()">Enter Your Space ✨</button>
+  <div class="splash-sunflower">🌻</div>
+  <div class="splash-title">Shreya's Space</div>
+  <div class="splash-sub">Made with love, just for you</div>
+  <button class="splash-btn" onclick="enterSite()">Enter</button>
 </div>
 
-<!-- ===== MAIN CONTENT ===== -->
 <div id="main-content">
   <nav>
-    <div class="nav-brand">Shreya's Space 🌻</div>
+    <div class="nav-brand">Shreya's Space</div>
     <div class="hamburger" onclick="toggleNav()">
       <span></span><span></span><span></span>
     </div>
     <div class="nav-links" id="navLinks">
       <a href="#" onclick="showSection('home')" class="active">Home</a>
-      <a href="#" onclick="showSection('timetable')">Timetable</a>
+      <a href="#" onclick="showSection('timetable')">Schedule</a>
       <a href="#" onclick="showSection('period')">Period</a>
       <a href="#" onclick="showSection('study')">Study</a>
       <a href="#" onclick="showSection('music')">Music</a>
@@ -1222,27 +672,28 @@
 
   <!-- HOME -->
   <div id="section-home" class="section active">
-    <div class="greeting card">
-      <h1>Hey Shreya! 🌻</h1>
-      <p>You're amazing, and this is your little corner of the internet. Made just for you.</p>
+    <div class="card" style="text-align:center;padding:40px 20px;">
+      <div style="font-size:3rem;margin-bottom:12px;">🌻</div>
+      <h1 style="font-size:1.8rem;font-weight:700;letter-spacing:-0.5px;">Hey Shreya</h1>
+      <p style="color:#86868b;margin-top:6px;">Your little corner of the internet</p>
     </div>
     <div class="quick-stats">
-      <div class="stat-card card">
+      <div class="stat-card">
         <div class="stat-icon">📚</div>
         <div class="stat-value" id="totalStudyHours">0</div>
-        <div class="stat-label">Total Study Hours</div>
+        <div class="stat-label">Study Hours</div>
       </div>
-      <div class="stat-card card">
+      <div class="stat-card">
         <div class="stat-icon">🌱</div>
         <div class="stat-value" id="plantLevel">0</div>
         <div class="stat-label">Plant Level</div>
       </div>
-      <div class="stat-card card">
+      <div class="stat-card">
         <div class="stat-icon">📝</div>
         <div class="stat-value" id="totalNotes">0</div>
-        <div class="stat-label">Notes Written</div>
+        <div class="stat-label">Notes</div>
       </div>
-      <div class="stat-card card">
+      <div class="stat-card">
         <div class="stat-icon">📸</div>
         <div class="stat-value" id="totalPhotos">0</div>
         <div class="stat-label">Photos</div>
@@ -1250,87 +701,100 @@
     </div>
   </div>
 
-  <!-- TIMETABLE -->
+  <!-- TIMETABLE (Morgen-style) -->
   <div id="section-timetable" class="section">
-    <h2 class="section-title">Daily Timetable</h2>
+    <h2 class="section-title">Today's Schedule</h2>
     <div class="card">
-      <div class="timetable-controls">
-        <button class="save-btn" onclick="saveTimetable()">💾 Save</button>
-        <button class="reset-btn" onclick="resetTimetable()">🔄 Reset</button>
+      <div class="timetable-toolbar">
+        <button class="primary" onclick="saveTimetable()">Save</button>
+        <button onclick="resetTimetable()">Reset</button>
+        <button onclick="clearAllBlocks()">Clear All</button>
       </div>
-      <div class="timetable-grid" id="timetableGrid"></div>
-      <button class="add-slot-btn" onclick="addTimeSlot()">+ Add Task</button>
+
+      <div class="category-picker" id="categoryPicker">
+        <button class="cat-study active" data-cat="study" onclick="selectCategory('study')">📖 Study</button>
+        <button class="cat-rest" data-cat="rest" onclick="selectCategory('rest')">😴 Rest</button>
+        <button class="cat-meal" data-cat="meal" onclick="selectCategory('meal')">🍽️ Meal</button>
+        <button class="cat-self" data-cat="self" onclick="selectCategory('self')">💖 Self</button>
+        <button class="cat-fun" data-cat="fun" onclick="selectCategory('fun')">🎮 Fun</button>
+        <button class="cat-other" data-cat="other" onclick="selectCategory('other')">📌 Other</button>
+      </div>
+
+      <div class="timetable-wrapper" id="timetableWrapper">
+        <div class="hour-labels" id="hourLabels"></div>
+        <div class="blocks-area" id="blocksArea"></div>
+      </div>
+
+      <div class="add-block-form">
+        <input type="time" id="blockStart" value="09:00">
+        <input type="time" id="blockEnd" value="10:00">
+        <input type="text" id="blockTitle" placeholder="What to do..." style="flex:1;min-width:120px;">
+        <button onclick="addBlock()">+ Add Block</button>
+      </div>
     </div>
   </div>
 
-  <!-- PERIOD TRACKER -->
+  <!-- PERIOD -->
   <div id="section-period" class="section">
     <h2 class="section-title">Period Tracker</h2>
-    <div class="card period-tracker">
+    <div class="card">
       <div class="period-header">
-        <button onclick="changeMonth(-1)">◀</button>
+        <button onclick="changeMonth(-1)">←</button>
         <span class="month-year" id="periodMonthYear"></span>
-        <button onclick="changeMonth(1)">▶</button>
+        <button onclick="changeMonth(1)">→</button>
       </div>
       <div class="day-names">
         <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
       </div>
       <div class="period-calendar" id="periodCalendar"></div>
-
-      <div class="prediction-box">
-        <div id="predictionStatus">Log your first period to see predictions 🌸</div>
-      </div>
-
+      <div class="prediction-box" id="predictionStatus">Log your first period to see predictions</div>
       <div class="period-log">
-        <label>📅 Log your period start date:</label>
+        <label>Log period start date:</label>
         <input type="date" id="periodDateInput">
         <div class="log-btns">
-          <button class="period-btn" onclick="logPeriod()">Log Period</button>
-          <button class="period-btn secondary" onclick="clearPeriods()">Clear All</button>
+          <button onclick="logPeriod()">Log Period</button>
+          <button class="secondary" onclick="clearPeriods()">Clear</button>
         </div>
-        <div style="margin-top:10px;">
-          <strong>Cycle History:</strong>
-          <div id="cycleHistory"></div>
+        <div style="margin-top:12px;">
+          <strong style="font-size:0.85rem;">Cycle History</strong>
+          <div id="cycleHistory" style="margin-top:6px;"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- STUDY TRACKER -->
+  <!-- STUDY -->
   <div id="section-study" class="section">
     <h2 class="section-title">Study Tracker</h2>
     <div class="card">
       <div class="plant-scene">
-        <div class="plant-body" style="display:flex;flex-direction:column;align-items:center;">
-          <div class="plant-stem" id="plantStem" style="height: 0px;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="plant-stem" id="plantStem" style="height:0px;">
             <div class="flower-top" id="plantFlower"></div>
           </div>
         </div>
-        <div class="pot">
-          <div class="pot-rim"></div>
-        </div>
+        <div class="pot"></div>
       </div>
-      <div class="plant-stats">
-        <div class="plant-level" id="plantLevelDisplay">🌱 Level 0</div>
-        <div style="font-size:0.85rem;color:#888;" id="plantNextLevel">0 / 5 hours to next level</div>
+      <div style="text-align:center;margin:12px 0;">
+        <div style="font-weight:600;" id="plantLevelDisplay">🌱 Seedling</div>
+        <div style="font-size:0.8rem;color:#86868b;" id="plantNextLevel">0 / 5 hours to next level</div>
       </div>
       <div class="study-form">
-        <input type="number" id="studyHoursInput" placeholder="Hours studied" min="0" step="0.5">
-        <button onclick="logStudyHours()">🌱 Log Study Time</button>
+        <input type="number" id="studyHoursInput" placeholder="Hours" min="0" step="0.5">
+        <button onclick="logStudyHours()">Log Study Time</button>
       </div>
-      <div class="study-history" id="studyHistory"></div>
+      <div id="studyHistory"></div>
     </div>
   </div>
 
   <!-- MUSIC -->
   <div id="section-music" class="section">
-    <h2 class="section-title">Music Time</h2>
+    <h2 class="section-title">Music</h2>
     <div class="card">
-      <p style="text-align:center;margin-bottom:15px;color:#888;">Your personal music corner 🎵</p>
+      <p style="text-align:center;color:#86868b;margin-bottom:16px;font-size:0.9rem;">Your personal music corner</p>
       <div class="spotify-embed">
         <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
-      <p style="text-align:center;margin-top:10px;font-size:0.85rem;color:#888;">🎵 Today's Top Hits — you can change the playlist anytime!</p>
     </div>
   </div>
 
@@ -1339,10 +803,10 @@
     <h2 class="section-title">Notes</h2>
     <div class="card">
       <div class="note-input-area">
-        <textarea id="noteInput" placeholder="Write something beautiful... 💭"></textarea>
-        <button onclick="addNote()">💾 Save Note</button>
+        <textarea id="noteInput" placeholder="Write something..."></textarea>
+        <button onclick="addNote()">Save</button>
       </div>
-      <div class="notes-list" id="notesList"></div>
+      <div class="notes-list" id="notesList" style="margin-top:20px;"></div>
     </div>
   </div>
 
@@ -1352,7 +816,7 @@
     <div class="card">
       <div class="gallery-grid" id="galleryGrid">
         <div class="add-photo-btn" onclick="document.getElementById('photoInput').click()">
-          <span>+</span>
+          <span style="font-size:1.8rem;">+</span>
         </div>
       </div>
       <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="addPhoto(event)">
@@ -1365,8 +829,8 @@
     <div class="card">
       <div class="add-timeline-form">
         <input type="date" id="tlDateInput">
-        <textarea id="tlTextInput" placeholder="What happened? Write your memory here..." rows="2"></textarea>
-        <button onclick="addTimelineEntry()">💾 Add Memory</button>
+        <textarea id="tlTextInput" placeholder="What happened?" rows="2"></textarea>
+        <button onclick="addTimelineEntry()">Add Memory</button>
       </div>
       <div class="timeline" id="timelineContainer"></div>
     </div>
@@ -1374,10 +838,8 @@
 </div>
 
 <script>
-  // ===== NAVIGATION =====
-  function toggleNav() {
-    document.getElementById('navLinks').classList.toggle('open');
-  }
+  // ===== NAV =====
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
 
   function showSection(id) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1385,12 +847,12 @@
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
     document.querySelector(`.nav-links a[onclick*="'${id}'"]`)?.classList.add('active');
     document.getElementById('navLinks').classList.remove('open');
+    if (id === 'timetable') renderTimetable();
     if (id === 'period') renderPeriodCalendar();
     if (id === 'study') renderStudy();
     if (id === 'notes') renderNotes();
     if (id === 'gallery') renderGallery();
     if (id === 'timeline') renderTimeline();
-    if (id === 'timetable') renderTimetable();
     if (id === 'home') updateHomeStats();
   }
 
@@ -1400,139 +862,234 @@
       document.getElementById('splash').style.display = 'none';
       document.getElementById('main-content').classList.add('show');
       spawnHearts();
-      renderTimetable();
-      renderPeriodCalendar();
-      renderStudy();
-      renderNotes();
-      renderGallery();
-      renderTimeline();
-      updateHomeStats();
-    }, 1000);
+      renderTimetable(); renderPeriodCalendar(); renderStudy();
+      renderNotes(); renderGallery(); renderTimeline(); updateHomeStats();
+    }, 800);
   }
 
-  // ===== FLOATING HEARTS =====
+  // ===== HEARTS =====
   function spawnHearts() {
     setInterval(() => {
-      const heart = document.createElement('div');
-      heart.className = 'floating-heart';
-      heart.textContent = ['💛','❤️','🌸','✨','🌻','💕','💖'][Math.floor(Math.random()*7)];
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
-      heart.style.animationDuration = (4 + Math.random() * 4) + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
-    }, 2000);
+      const h = document.createElement('div');
+      h.className = 'floating-heart';
+      h.textContent = ['💛','❤️','🌸','✨','🌻','💕','💖'][Math.floor(Math.random()*7)];
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.fontSize = (0.6 + Math.random() * 1) + 'rem';
+      h.style.animationDuration = (4 + Math.random() * 4) + 's';
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 8000);
+    }, 2500);
   }
 
-  // ===== TIMETABLE =====
-  let timetableData = [];
+  // ===== MORGEN-STYLE TIMETABLE =====
+  let blocks = [];
+  let selectedCategory = 'study';
+  let dragBlock = null;
+  let dragStartY = 0;
+  let dragStartHeight = 0;
 
-  function loadTimetable() {
-    const saved = localStorage.getItem('shreya_timetable');
-    if (saved) {
-      timetableData = JSON.parse(saved);
-    } else {
-      timetableData = [
-        { time: '06:00', task: '🌅 Wake up & freshen up' },
-        { time: '07:00', task: '📖 Study session 1' },
-        { time: '09:00', task: '🥣 Breakfast' },
-        { time: '10:00', task: '📚 Study session 2' },
-        { time: '12:00', task: '🍽️ Lunch' },
-        { time: '13:00', task: '😴 Rest / Nap' },
-        { time: '15:00', task: '📖 Study session 3' },
-        { time: '17:00', task: '🚶 Walk / Exercise' },
-        { time: '18:00', task: '🎵 Music / Relax' },
-        { time: '19:00', task: '🍜 Dinner' },
-        { time: '20:00', task: '📖 Light study / Reading' },
-        { time: '22:00', task: '🌙 Wind down & sleep' },
+  const HOURS = [];
+  for (let i = 6; i <= 23; i++) HOURS.push(i);
+  const PIXELS_PER_HOUR = 60;
+  const CATEGORIES = ['study','rest','meal','self','fun','other'];
+
+  function timeToMinutes(t) {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  function minutesToTime(m) {
+    const h = Math.floor(m / 60);
+    const min = m % 60;
+    return `${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+  }
+
+  function loadBlocks() {
+    const saved = localStorage.getItem('shreya_blocks');
+    if (saved) { blocks = JSON.parse(saved); }
+    else {
+      blocks = [
+        { id: Date.now()+1, start: '07:00', end: '08:30', title: 'Morning Study', category: 'study' },
+        { id: Date.now()+2, start: '09:00', end: '09:30', title: 'Breakfast', category: 'meal' },
+        { id: Date.now()+3, start: '10:00', end: '12:00', title: 'Deep Work', category: 'study' },
+        { id: Date.now()+4, start: '12:00', end: '13:00', title: 'Lunch', category: 'meal' },
+        { id: Date.now()+5, start: '13:00', end: '14:00', title: 'Rest', category: 'rest' },
+        { id: Date.now()+6, start: '15:00', end: '17:00', title: 'Study Session', category: 'study' },
+        { id: Date.now()+7, start: '19:00', end: '20:00', title: 'Dinner', category: 'meal' },
+        { id: Date.now()+8, start: '22:00', end: '23:00', title: 'Wind Down', category: 'rest' },
       ];
     }
   }
 
   function renderTimetable() {
-    loadTimetable();
-    const grid = document.getElementById('timetableGrid');
-    grid.innerHTML = '';
-    timetableData.forEach((slot, i) => {
+    loadBlocks();
+    const wrapper = document.getElementById('timetableWrapper');
+    const labelsDiv = document.getElementById('hourLabels');
+    const area = document.getElementById('blocksArea');
+
+    labelsDiv.innerHTML = '';
+    area.innerHTML = '';
+
+    HOURS.forEach(h => {
+      const lbl = document.createElement('div');
+      lbl.className = 'hour-label';
+      const ampm = h < 12 ? 'AM' : 'PM';
+      const disp = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      lbl.textContent = `${disp} ${ampm}`;
+      labelsDiv.appendChild(lbl);
+    });
+
+    area.style.minHeight = (HOURS.length * PIXELS_PER_HOUR) + 'px';
+
+    blocks.forEach(b => {
+      const startM = timeToMinutes(b.start);
+      const endM = timeToMinutes(b.end);
+      const dayStart = 6 * 60;
+      const top = ((startM - dayStart) / 60) * PIXELS_PER_HOUR;
+      const height = ((endM - startM) / 60) * PIXELS_PER_HOUR;
+
       const div = document.createElement('div');
-      div.className = 'time-slot';
+      div.className = `time-block block-${b.category}`;
+      div.style.top = top + 'px';
+      div.style.height = Math.max(height, 20) + 'px';
+      div.dataset.id = b.id;
+
       div.innerHTML = `
-        <span class="time">${slot.time}</span>
-        <input type="text" value="${slot.task}" data-index="${i}" onchange="updateTask(${i}, this.value)">
-        <button class="delete-slot" onclick="deleteTimeSlot(${i})">✕</button>
+        <input class="block-edit" value="${b.title}" onchange="updateBlockTitle(${b.id}, this.value)" onclick="event.stopPropagation()">
+        <div class="block-time">${b.start} - ${b.end}</div>
+        <div class="resize-handle" onmousedown="startResize(event, ${b.id})" ontouchstart="startResizeTouch(event, ${b.id})"></div>
+        <button class="block-delete" onclick="event.stopPropagation();deleteBlock(${b.id})">✕</button>
       `;
-      grid.appendChild(div);
+
+      area.appendChild(div);
     });
   }
 
-  function updateTask(i, val) {
-    timetableData[i].task = val;
+  function selectCategory(cat) {
+    selectedCategory = cat;
+    document.querySelectorAll('.category-picker button').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.category-picker button[data-cat="${cat}"]`).classList.add('active');
   }
 
-  function addTimeSlot() {
-    timetableData.push({ time: '00:00', task: 'New task' });
+  function addBlock() {
+    const start = document.getElementById('blockStart').value;
+    const end = document.getElementById('blockEnd').value;
+    const title = document.getElementById('blockTitle').value.trim() || 'New Block';
+    if (start >= end) { alert('End time must be after start time'); return; }
+    blocks.push({ id: Date.now(), start, end, title, category: selectedCategory });
+    saveBlocks();
+    renderTimetable();
+    document.getElementById('blockTitle').value = '';
+  }
+
+  function deleteBlock(id) {
+    blocks = blocks.filter(b => b.id !== id);
+    saveBlocks();
     renderTimetable();
   }
 
-  function deleteTimeSlot(i) {
-    timetableData.splice(i, 1);
-    renderTimetable();
+  function updateBlockTitle(id, val) {
+    const b = blocks.find(b => b.id === id);
+    if (b) { b.title = val; saveBlocks(); }
   }
 
-  function saveTimetable() {
-    localStorage.setItem('shreya_timetable', JSON.stringify(timetableData));
-    alert('💾 Timetable saved!');
+  function saveBlocks() {
+    localStorage.setItem('shreya_blocks', JSON.stringify(blocks));
   }
+
+  function saveTimetable() { saveBlocks(); }
 
   function resetTimetable() {
-    if (confirm('Reset timetable to default?')) {
-      localStorage.removeItem('shreya_timetable');
+    if (confirm('Reset to default schedule?')) {
+      localStorage.removeItem('shreya_blocks');
       renderTimetable();
     }
   }
 
-  // ===== PERIOD TRACKER =====
+  function clearAllBlocks() {
+    if (confirm('Remove all blocks?')) {
+      blocks = [];
+      saveBlocks();
+      renderTimetable();
+    }
+  }
+
+  // ===== RESIZE =====
+  function startResize(e, id) {
+    e.preventDefault();
+    dragBlock = id;
+    dragStartY = e.clientY;
+    const b = blocks.find(b => b.id === id);
+    dragStartHeight = timeToMinutes(b.end) - timeToMinutes(b.start);
+    document.addEventListener('mousemove', onResize);
+    document.addEventListener('mouseup', stopResize);
+  }
+
+  function startResizeTouch(e, id) {
+    e.preventDefault();
+    dragBlock = id;
+    dragStartY = e.touches[0].clientY;
+    const b = blocks.find(b => b.id === id);
+    dragStartHeight = timeToMinutes(b.end) - timeToMinutes(b.start);
+    document.addEventListener('touchmove', onResizeTouch);
+    document.addEventListener('touchend', stopResize);
+  }
+
+  function onResize(e) {
+    if (!dragBlock) return;
+    const dy = e.clientY - dragStartY;
+    const extra = (dy / PIXELS_PER_HOUR) * 60;
+    const b = blocks.find(b => b.id === dragBlock);
+    if (!b) return;
+    let newEnd = timeToMinutes(b.start) + Math.max(dragStartHeight + extra, 15);
+    b.end = minutesToTime(Math.min(newEnd, 23*60));
+    renderTimetable();
+  }
+
+  function onResizeTouch(e) {
+    if (!dragBlock) return;
+    const dy = e.touches[0].clientY - dragStartY;
+    const extra = (dy / PIXELS_PER_HOUR) * 60;
+    const b = blocks.find(b => b.id === dragBlock);
+    if (!b) return;
+    let newEnd = timeToMinutes(b.start) + Math.max(dragStartHeight + extra, 15);
+    b.end = minutesToTime(Math.min(newEnd, 23*60));
+    renderTimetable();
+  }
+
+  function stopResize() {
+    if (dragBlock) saveBlocks();
+    dragBlock = null;
+    document.removeEventListener('mousemove', onResize);
+    document.removeEventListener('mouseup', stopResize);
+    document.removeEventListener('touchmove', onResizeTouch);
+    document.removeEventListener('touchend', stopResize);
+  }
+
+  // ===== PERIOD =====
   let periodMonth = new Date().getMonth();
   let periodYear = new Date().getFullYear();
 
-  function getPeriodData() {
-    return JSON.parse(localStorage.getItem('shreya_periods') || '[]');
-  }
-
-  function savePeriodData(data) {
-    localStorage.setItem('shreya_periods', JSON.stringify(data));
-  }
+  function getPeriodData() { return JSON.parse(localStorage.getItem('shreya_periods') || '[]'); }
+  function savePeriodData(d) { localStorage.setItem('shreya_periods', JSON.stringify(d)); }
 
   function getCycleLength() {
-    const periods = getPeriodData();
-    if (periods.length < 2) return 28;
-    let total = 0;
-    for (let i = 1; i < periods.length; i++) {
-      const d1 = new Date(periods[i-1]);
-      const d2 = new Date(periods[i]);
-      total += (d2 - d1) / (1000 * 60 * 60 * 24);
-    }
-    return Math.round(total / (periods.length - 1));
+    const p = getPeriodData();
+    if (p.length < 2) return 28;
+    let t = 0;
+    for (let i = 1; i < p.length; i++) t += (new Date(p[i]) - new Date(p[i-1])) / (1000*60*60*24);
+    return Math.round(t / (p.length - 1));
   }
 
   function renderPeriodCalendar() {
     const periods = getPeriodData();
     const firstDay = new Date(periodYear, periodMonth, 1).getDay();
     const daysInMonth = new Date(periodYear, periodMonth + 1, 0).getDate();
-    const today = new Date();
-
     document.getElementById('periodMonthYear').textContent =
       new Date(periodYear, periodMonth).toLocaleString('default', { month: 'long', year: 'numeric' });
-
     const cal = document.getElementById('periodCalendar');
     cal.innerHTML = '';
-
-    for (let i = 0; i < firstDay; i++) {
-      const d = document.createElement('div');
-      d.className = 'period-calendar-day';
-      cal.appendChild(d);
-    }
-
+    for (let i = 0; i < firstDay; i++) { const d = document.createElement('div'); d.className = 'period-calendar-day'; cal.appendChild(d); }
     const cycleLen = getCycleLength();
     let predictedDays = [];
     if (periods.length > 0) {
@@ -1540,111 +1097,62 @@
       let next = new Date(last);
       next.setDate(next.getDate() + cycleLen);
       for (let i = 0; i < 5; i++) {
-        for (let d = 0; d < 5; d++) {
-          const pd = new Date(next);
-          pd.setDate(pd.getDate() + d);
-          predictedDays.push(pd.toDateString());
-        }
+        for (let d = 0; d < 5; d++) { const pd = new Date(next); pd.setDate(pd.getDate() + d); predictedDays.push(pd.toDateString()); }
         next.setDate(next.getDate() + cycleLen);
       }
     }
-
     for (let d = 1; d <= daysInMonth; d++) {
       const div = document.createElement('div');
       div.className = 'period-calendar-day';
       const dateStr = new Date(periodYear, periodMonth, d).toDateString();
-      const isToday = new Date().toDateString() === dateStr;
-      if (isToday) div.classList.add('today');
-
-      const isPeriod = periods.some(p => new Date(p).toDateString() === dateStr);
-      if (isPeriod) div.classList.add('period');
-
-      if (predictedDays.includes(dateStr) && !isPeriod) {
-        div.classList.add('ovulation');
-      }
-
+      if (new Date().toDateString() === dateStr) div.classList.add('today');
+      if (periods.some(p => new Date(p).toDateString() === dateStr)) div.classList.add('period');
+      if (predictedDays.includes(dateStr) && !periods.some(p => new Date(p).toDateString() === dateStr)) div.classList.add('ovulation');
       div.textContent = d;
       cal.appendChild(div);
     }
-
-    // Prediction
-    const predBox = document.getElementById('predictionStatus');
-    if (periods.length === 0) {
-      predBox.innerHTML = '🌸 Log your first period to see predictions!';
-    } else {
+    const pred = document.getElementById('predictionStatus');
+    if (periods.length === 0) { pred.innerHTML = 'Log your first period to see predictions'; }
+    else {
       const last = new Date(periods[periods.length - 1]);
-      const next = new Date(last);
-      next.setDate(next.getDate() + cycleLen);
-      const today = new Date();
-      const diff = Math.ceil((next - today) / (1000 * 60 * 60 * 24));
-      if (diff < 0) {
-        predBox.innerHTML = `🔴 Your period might be late! Last was ${periods[periods.length-1]}`;
-      } else if (diff <= 5) {
-        predBox.innerHTML = `🔴 Period expected in <strong>${diff}</strong> day${diff > 1 ? 's' : ''}! Get ready 🌸`;
-      } else {
-        predBox.innerHTML = `🌸 Next period expected in <strong>${diff}</strong> days (around ${next.toLocaleDateString()})`;
-      }
+      const next = new Date(last); next.setDate(next.getDate() + cycleLen);
+      const diff = Math.ceil((next - new Date()) / (1000*60*60*24));
+      if (diff < 0) pred.innerHTML = `Period may be late. Last: ${periods[periods.length-1]}`;
+      else if (diff <= 5) pred.innerHTML = `Period expected in <strong>${diff}</strong> day${diff>1?'s':''}`;
+      else pred.innerHTML = `Next period in <strong>${diff}</strong> days (around ${next.toLocaleDateString()})`;
     }
-
-    // Cycle history
-    const histDiv = document.getElementById('cycleHistory');
-    if (periods.length === 0) {
-      histDiv.innerHTML = '<p style="color:#888;font-size:0.85rem;">No cycles logged yet</p>';
-    } else {
-      histDiv.innerHTML = periods.map((p, i) => {
-        const diff = i > 0 ? Math.round((new Date(p) - new Date(periods[i-1])) / (1000*60*60*24)) + ' days' : 'First';
-        return `<div class="cycle-entry"><span>${new Date(p).toLocaleDateString()}</span><span>${diff}</span></div>`;
-      }).join('');
-    }
+    const hist = document.getElementById('cycleHistory');
+    if (periods.length === 0) hist.innerHTML = '<p style="color:#86868b;font-size:0.8rem;">No cycles logged</p>';
+    else hist.innerHTML = periods.map((p,i) => {
+      const diff = i > 0 ? Math.round((new Date(p)-new Date(periods[i-1]))/(1000*60*60*24)) + ' days' : 'First';
+      return `<div class="cycle-entry"><span>${new Date(p).toLocaleDateString()}</span><span>${diff}</span></div>`;
+    }).join('');
   }
 
-  function changeMonth(delta) {
-    periodMonth += delta;
-    if (periodMonth < 0) { periodMonth = 11; periodYear--; }
-    if (periodMonth > 11) { periodMonth = 0; periodYear++; }
-    renderPeriodCalendar();
-  }
-
+  function changeMonth(d) { periodMonth += d; if (periodMonth<0){periodMonth=11;periodYear--;} if(periodMonth>11){periodMonth=0;periodYear++;} renderPeriodCalendar(); }
   function logPeriod() {
     const input = document.getElementById('periodDateInput');
     const date = input.value;
-    if (!date) { alert('Please select a date!'); return; }
-    const periods = getPeriodData();
-    if (!periods.includes(date)) {
-      periods.push(date);
-      periods.sort();
-      savePeriodData(periods);
-    }
-    renderPeriodCalendar();
-    input.value = '';
+    if (!date) { alert('Select a date'); return; }
+    const p = getPeriodData();
+    if (!p.includes(date)) { p.push(date); p.sort(); savePeriodData(p); }
+    renderPeriodCalendar(); input.value = '';
   }
+  function clearPeriods() { if (confirm('Clear all?')) { savePeriodData([]); renderPeriodCalendar(); } }
 
-  function clearPeriods() {
-    if (confirm('Clear all period data?')) {
-      savePeriodData([]);
-      renderPeriodCalendar();
-    }
-  }
-
-  // ===== STUDY TRACKER =====
-  function getStudyData() {
-    return JSON.parse(localStorage.getItem('shreya_study') || '{"total":0,"logs":[]}');
-  }
-
-  function saveStudyData(data) {
-    localStorage.setItem('shreya_study', JSON.stringify(data));
-  }
+  // ===== STUDY =====
+  function getStudyData() { return JSON.parse(localStorage.getItem('shreya_study') || '{"total":0,"logs":[]}'); }
+  function saveStudyData(d) { localStorage.setItem('shreya_study', JSON.stringify(d)); }
 
   function logStudyHours() {
     const input = document.getElementById('studyHoursInput');
     const hours = parseFloat(input.value);
-    if (!hours || hours <= 0) { alert('Please enter valid hours!'); return; }
+    if (!hours || hours <= 0) { alert('Enter valid hours'); return; }
     const data = getStudyData();
     data.total += hours;
     data.logs.push({ hours, date: new Date().toLocaleDateString() });
     saveStudyData(data);
-    renderStudy();
-    updateHomeStats();
+    renderStudy(); updateHomeStats();
     input.value = '';
     spawnConfetti();
   }
@@ -1653,236 +1161,127 @@
     const data = getStudyData();
     const total = data.total;
     const level = Math.floor(total / 5);
-    const nextLevel = (level + 1) * 5;
     const progress = total - (level * 5);
-
     document.getElementById('plantLevelDisplay').textContent =
-      level === 0 ? '🌱 Seedling' :
-      level < 3 ? '🌿 Sprouting' :
-      level < 6 ? '🌳 Growing' :
-      level < 10 ? '🌲 Flourishing' : '🌻 Blooming!';
-
+      level === 0 ? '🌱 Seedling' : level < 3 ? '🌿 Sprouting' : level < 6 ? '🌳 Growing' : level < 10 ? '🌲 Flourishing' : '🌻 Blooming!';
     const stem = document.querySelector('.plant-scene .plant-stem');
     const stemHeight = Math.min(level * 25 + 10, 250);
     stem.style.height = stemHeight + 'px';
-
-    // Leaves
-    const leaves = document.querySelectorAll('.plant-scene .plant-leaf');
-    leaves.forEach(l => l.remove());
-
+    document.querySelectorAll('.plant-scene .plant-leaf').forEach(l => l.remove());
     const leafCount = Math.min(Math.floor(level / 1.5), 12);
     for (let i = 0; i < leafCount; i++) {
       const leaf = document.createElement('div');
       leaf.className = 'plant-leaf show ' + (i % 2 === 0 ? 'l' : 'r');
-      const pos = 10 + (i * 20);
-      leaf.style.top = pos + 'px';
-      leaf.style.width = (25 + Math.min(i * 2, 20)) + 'px';
-      leaf.style.height = (14 + Math.min(i, 8)) + 'px';
-      stem.appendChild(leaf);
+      leaf.style.top = (10 + i * 20) + 'px';
+      leaf.style.width = (25 + Math.min(i*2,20)) + 'px';
+      leaf.style.height = (14 + Math.min(i,8)) + 'px';
+      document.querySelector('.plant-scene .plant-stem').appendChild(leaf);
     }
-
     const flower = document.querySelector('.plant-scene .flower-top');
-    if (level >= 1) {
-      flower.classList.add('show');
-    } else {
-      flower.classList.remove('show');
-    }
-
+    if (level >= 1) flower.classList.add('show'); else flower.classList.remove('show');
     document.getElementById('plantLevel').textContent = level;
     document.getElementById('totalStudyHours').textContent = data.total.toFixed(1);
-
-    const nextLvl = document.getElementById('plantNextLevel');
-    if (nextLevel) {
-      nextLvl.textContent = `${progress.toFixed(1)} / 5 hours to next level`;
-    } else {
-      nextLvl.textContent = '🌻 Fully bloomed!';
-    }
-
-    // History
+    document.getElementById('plantNextLevel').textContent = `${progress.toFixed(1)} / 5 hours to next level`;
     const hist = document.getElementById('studyHistory');
-    hist.innerHTML = data.logs.slice().reverse().slice(0, 20).map(l =>
+    hist.innerHTML = data.logs.slice().reverse().slice(0,20).map(l =>
       `<div class="study-history-item"><span>${l.date}</span><span>📚 ${l.hours}h</span></div>`
     ).join('');
   }
 
   // ===== NOTES =====
-  function getNotes() {
-    return JSON.parse(localStorage.getItem('shreya_notes') || '[]');
-  }
-
-  function saveNotes(notes) {
-    localStorage.setItem('shreya_notes', JSON.stringify(notes));
-  }
-
+  function getNotes() { return JSON.parse(localStorage.getItem('shreya_notes') || '[]'); }
+  function saveNotes(n) { localStorage.setItem('shreya_notes', JSON.stringify(n)); }
   function addNote() {
     const input = document.getElementById('noteInput');
     const text = input.value.trim();
-    if (!text) { alert('Write something first!'); return; }
+    if (!text) { alert('Write something'); return; }
     const notes = getNotes();
     notes.unshift({ text, date: new Date().toLocaleString() });
-    saveNotes(notes);
-    renderNotes();
-    updateHomeStats();
-    input.value = '';
+    saveNotes(notes); renderNotes(); updateHomeStats(); input.value = '';
   }
-
-  function deleteNote(i) {
-    const notes = getNotes();
-    notes.splice(i, 1);
-    saveNotes(notes);
-    renderNotes();
-    updateHomeStats();
-  }
-
+  function deleteNote(i) { const n = getNotes(); n.splice(i,1); saveNotes(n); renderNotes(); updateHomeStats(); }
   function renderNotes() {
     const notes = getNotes();
     const list = document.getElementById('notesList');
-    if (notes.length === 0) {
-      list.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No notes yet. Write something beautiful! 💭</p>';
-      return;
-    }
-    list.innerHTML = notes.map((n, i) =>
-      `<div class="note-item">
-        <div class="note-date">${n.date}</div>
-        <div class="note-text">${n.text}</div>
-        <button class="delete-note" onclick="deleteNote(${i})">✕</button>
-      </div>`
+    if (notes.length === 0) { list.innerHTML = '<p style="color:#86868b;text-align:center;padding:20px;font-size:0.85rem;">No notes yet</p>'; return; }
+    list.innerHTML = notes.map((n,i) =>
+      `<div class="note-item"><div class="note-date">${n.date}</div><div class="note-text">${n.text}</div><button class="delete-note" onclick="deleteNote(${i})">✕</button></div>`
     ).join('');
   }
 
   // ===== GALLERY =====
-  function getGallery() {
-    return JSON.parse(localStorage.getItem('shreya_gallery') || '[]');
-  }
-
-  function saveGallery(g) {
-    localStorage.setItem('shreya_gallery', JSON.stringify(g));
-  }
-
-  function addPhoto(event) {
-    const file = event.target.files[0];
+  function getGallery() { return JSON.parse(localStorage.getItem('shreya_gallery') || '[]'); }
+  function saveGallery(g) { localStorage.setItem('shreya_gallery', JSON.stringify(g)); }
+  function addPhoto(e) {
+    const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = function(e) {
-      const gallery = getGallery();
-      gallery.push(e.target.result);
-      saveGallery(gallery);
-      renderGallery();
-      updateHomeStats();
+    reader.onload = function(ev) {
+      const g = getGallery(); g.push(ev.target.result); saveGallery(g); renderGallery(); updateHomeStats();
     };
     reader.readAsDataURL(file);
   }
-
-  function deletePhoto(i) {
-    const gallery = getGallery();
-    gallery.splice(i, 1);
-    saveGallery(gallery);
-    renderGallery();
-    updateHomeStats();
-  }
-
+  function deletePhoto(i) { const g = getGallery(); g.splice(i,1); saveGallery(g); renderGallery(); updateHomeStats(); }
   function renderGallery() {
-    const gallery = getGallery();
+    const g = getGallery();
     const grid = document.getElementById('galleryGrid');
-    let html = '<div class="add-photo-btn" onclick="document.getElementById(\'photoInput\').click()"><span style="font-size:2rem;">+</span></div>';
-    gallery.forEach((img, i) => {
-      html += `<div class="gallery-item">
-        <img src="${img}" alt="Photo ${i+1}">
-        <button class="delete-photo" onclick="deletePhoto(${i})">✕</button>
-      </div>`;
-    });
+    let html = '<div class="add-photo-btn" onclick="document.getElementById(\'photoInput\').click()"><span style="font-size:1.8rem;">+</span></div>';
+    g.forEach((img,i) => { html += `<div class="gallery-item"><img src="${img}"><button class="delete-photo" onclick="deletePhoto(${i})">✕</button></div>`; });
     grid.innerHTML = html;
-    document.getElementById('totalPhotos').textContent = gallery.length;
+    document.getElementById('totalPhotos').textContent = g.length;
   }
 
   // ===== TIMELINE =====
-  function getTimeline() {
-    return JSON.parse(localStorage.getItem('shreya_timeline') || '[]');
-  }
-
-  function saveTimeline(tl) {
-    localStorage.setItem('shreya_timeline', JSON.stringify(tl));
-  }
-
+  function getTimeline() { return JSON.parse(localStorage.getItem('shreya_timeline') || '[]'); }
+  function saveTimeline(t) { localStorage.setItem('shreya_timeline', JSON.stringify(t)); }
   function addTimelineEntry() {
     const date = document.getElementById('tlDateInput').value;
     const text = document.getElementById('tlTextInput').value.trim();
-    if (!date || !text) { alert('Please fill in both date and text!'); return; }
-    const tl = getTimeline();
-    tl.unshift({ date, text });
-    saveTimeline(tl);
-    renderTimeline();
-    document.getElementById('tlDateInput').value = '';
-    document.getElementById('tlTextInput').value = '';
+    if (!date || !text) { alert('Fill in both fields'); return; }
+    const tl = getTimeline(); tl.unshift({ date, text }); saveTimeline(tl); renderTimeline();
+    document.getElementById('tlDateInput').value = ''; document.getElementById('tlTextInput').value = '';
   }
-
-  function deleteTimelineEntry(i) {
-    const tl = getTimeline();
-    tl.splice(i, 1);
-    saveTimeline(tl);
-    renderTimeline();
-  }
-
+  function deleteTimelineEntry(i) { const tl = getTimeline(); tl.splice(i,1); saveTimeline(tl); renderTimeline(); }
   function renderTimeline() {
     const tl = getTimeline();
-    const container = document.getElementById('timelineContainer');
-    if (tl.length === 0) {
-      container.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No memories yet. Start adding! 💕</p>';
-      return;
-    }
-    container.innerHTML = tl.map((e, i) =>
-      `<div class="timeline-item">
-        <div class="tl-date">${new Date(e.date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</div>
-        <div class="tl-text">${e.text}</div>
-        <button class="delete-tl" onclick="deleteTimelineEntry(${i})">✕</button>
-      </div>`
+    const c = document.getElementById('timelineContainer');
+    if (tl.length === 0) { c.innerHTML = '<p style="color:#86868b;text-align:center;padding:20px;font-size:0.85rem;">No memories yet</p>'; return; }
+    c.innerHTML = tl.map((e,i) =>
+      `<div class="timeline-item"><div class="tl-date">${new Date(e.date).toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'})}</div><div class="tl-text">${e.text}</div><button class="delete-tl" onclick="deleteTimelineEntry(${i})">✕</button></div>`
     ).join('');
   }
 
   // ===== CONFETTI =====
   function spawnConfetti() {
-    const colors = ['#ff9eb5','#ffd93d','#c9b1ff','#6bcb77','#a0d2ff','#ff6b8a'];
-    for (let i = 0; i < 30; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      piece.style.left = Math.random() * 100 + 'vw';
-      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-      piece.style.width = (5 + Math.random() * 8) + 'px';
-      piece.style.height = (5 + Math.random() * 8) + 'px';
-      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-      piece.style.animationDuration = (2 + Math.random() * 3) + 's';
-      piece.style.animationDelay = Math.random() * 0.5 + 's';
-      document.body.appendChild(piece);
-      setTimeout(() => piece.remove(), 5000);
+    const colors = ['#007AFF','#34C759','#FF9500','#FF2D55','#AF52DE','#FFCC00'];
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      p.style.width = (4+Math.random()*6)+'px'; p.style.height = (4+Math.random()*6)+'px';
+      p.style.borderRadius = Math.random()>0.5?'50%':'2px';
+      p.style.animationDuration = (2+Math.random()*3)+'s';
+      p.style.animationDelay = Math.random()*0.5+'s';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 5000);
     }
   }
 
-  // ===== HOME STATS =====
+  // ===== HOME =====
   function updateHomeStats() {
-    const study = getStudyData();
-    const notes = getNotes();
-    const gallery = getGallery();
-    document.getElementById('totalStudyHours').textContent = study.total.toFixed(1);
-    document.getElementById('plantLevel').textContent = Math.floor(study.total / 5);
-    document.getElementById('totalNotes').textContent = notes.length;
-    document.getElementById('totalPhotos').textContent = gallery.length;
+    const s = getStudyData(); const n = getNotes(); const g = getGallery();
+    document.getElementById('totalStudyHours').textContent = s.total.toFixed(1);
+    document.getElementById('plantLevel').textContent = Math.floor(s.total / 5);
+    document.getElementById('totalNotes').textContent = n.length;
+    document.getElementById('totalPhotos').textContent = g.length;
   }
 
   // ===== INIT =====
-  renderTimetable();
-  renderPeriodCalendar();
-  renderStudy();
-  renderNotes();
-  renderGallery();
-  renderTimeline();
-  updateHomeStats();
-</script>
+  renderTimetable(); renderPeriodCalendar(); renderStudy();
+  renderNotes(); renderGallery(); renderTimeline(); updateHomeStats();
 
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
+  if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 </script>
-
 </body>
 </html>
