@@ -1855,6 +1855,36 @@
     saveNotes(notes);
   }
 
+  function openNoteEditor(id) {
+    currentNoteId = id;
+    const notes = getNotes();
+    const n = notes.find(n => n.id === id);
+    if (!n) return;
+    document.getElementById('evernoteEmpty').style.display = 'none';
+    document.getElementById('evernoteEditorContent').style.display = 'flex';
+    document.getElementById('editorTitle').value = n.title || '';
+    document.getElementById('editorBody').value = n.body || '';
+    const pinBtn = document.getElementById('pinBtn');
+    pinBtn.textContent = n.pinned ? '📌 Pinned' : '📌 Pin';
+    pinBtn.className = 'pin-btn' + (n.pinned ? ' pinned' : '');
+    renderEditorTags(n.tags || []);
+    renderNotes();
+  }
+
+  function deleteNoteById(id) {
+    if (!confirm('Delete this note?')) return;
+    let notes = getNotes();
+    notes = notes.filter(n => n.id !== id);
+    saveNotes(notes);
+    if (currentNoteId === id) {
+      currentNoteId = null;
+      document.getElementById('evernoteEmpty').style.display = 'flex';
+      document.getElementById('evernoteEditorContent').style.display = 'none';
+    }
+    renderNotes();
+    updateHomeStats();
+  }
+
   function saveCurrentNote() {
     autoSaveNote();
   }
@@ -1987,72 +2017,6 @@
   function selectNotebook(nb) {
     selectedNotebook = nb;
     renderNotes();
-  }
-
-  // ===== NOTES - EVERNOTE STYLE =====
-  let currentNoteId = null;
-  let selectedNotebook = 'all';
-
-  function getNotes() { return JSON.parse(localStorage.getItem('shreya_evernotes') || '[]'); }
-  function saveNotes(n) { localStorage.setItem('shreya_evernotes', JSON.stringify(n)); }
-  function getNotebooks() { return JSON.parse(localStorage.getItem('shreya_notebooks') || '["Personal","Study","Ideas"]'); }
-  function saveNotebooks(n) { localStorage.setItem('shreya_notebooks', JSON.stringify(n)); }
-
-  function addNotebook() {
-    const name = prompt('Notebook name:');
-    if (!name || !name.trim()) return;
-    const nb = getNotebooks();
-    if (!nb.includes(name.trim())) { nb.push(name.trim()); saveNotebooks(nb); renderNotes(); }
-  }
-
-  function newNote() {
-    const notes = getNotes();
-    const id = Date.now();
-    notes.unshift({ id, title: '', body: '', tags: [], notebook: selectedNotebook === 'all' ? 'Personal' : selectedNotebook, pinned: false, date: new Date().toISOString() });
-    saveNotes(notes);
-    currentNoteId = id;
-    renderNotes();
-    openNoteEditor(id);
-  }
-
-  function openNoteEditor(id) {
-    currentNoteId = id;
-    const notes = getNotes();
-    const n = notes.find(n => n.id === id);
-    if (!n) return;
-    document.getElementById('evernoteEmpty').style.display = 'none';
-    document.getElementById('evernoteEditorContent').style.display = 'flex';
-    document.getElementById('editorTitle').value = n.title || '';
-    document.getElementById('editorBody').value = n.body || '';
-    const pinBtn = document.getElementById('pinBtn');
-    pinBtn.textContent = n.pinned ? '📌 Pinned' : '📌 Pin';
-    pinBtn.className = 'pin-btn' + (n.pinned ? ' pinned' : '');
-    renderEditorTags(n.tags || []);
-    renderNotes();
-  }
-
-  function autoSaveNote() {
-    if (!currentNoteId) return;
-    const notes = getNotes();
-    const n = notes.find(n => n.id === currentNoteId);
-    if (!n) return;
-    n.title = document.getElementById('editorTitle').value;
-    n.body = document.getElementById('editorBody').value;
-    saveNotes(notes);
-  }
-
-  function deleteNoteById(id) {
-    if (!confirm('Delete this note?')) return;
-    let notes = getNotes();
-    notes = notes.filter(n => n.id !== id);
-    saveNotes(notes);
-    if (currentNoteId === id) {
-      currentNoteId = null;
-      document.getElementById('evernoteEmpty').style.display = 'flex';
-      document.getElementById('evernoteEditorContent').style.display = 'none';
-    }
-    renderNotes();
-    updateHomeStats();
   }
 
   // ===== GALLERY =====
