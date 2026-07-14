@@ -42,6 +42,26 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(255,45,85,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(175,82,222,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(0,122,255,0.03) 0%, transparent 50%);
+      pointer-events: none; z-index: -1;
+    }
+
+    .section {
+      display: none; padding: 80px 16px 40px; max-width: 800px; margin: 0 auto;
+      animation: sectionIn 0.5s ease;
+    }
+    .section.active { display: block; }
+    @keyframes sectionIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* ===== SPLASH ===== */
     #splash {
       position: fixed; inset: 0;
@@ -55,12 +75,46 @@
     .splash-sunflower {
       font-size: 5rem;
       animation: splashFloat 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 4px 20px rgba(255,204,0,0.2));
     }
     @keyframes splashFloat {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      25% { transform: translateY(-10px) rotate(-3deg); }
-      75% { transform: translateY(-10px) rotate(3deg); }
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      25% { transform: translateY(-10px) rotate(-3deg) scale(1.05); }
+      75% { transform: translateY(-10px) rotate(3deg) scale(1.05); }
     }
+
+    .splash-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s forwards;
+      letter-spacing: -0.5px;
+    }
+    .splash-sub {
+      font-size: 1rem;
+      color: #86868b;
+      margin-top: 8px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+    .splash-btn {
+      margin-top: 30px;
+      padding: 14px 48px;
+      border: none;
+      border-radius: 50px;
+      background: #1d1d1f;
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .splash-btn:hover { background: #2d2d2f; transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,0,0,0.15); }
 
     .splash-title {
       font-size: 2rem;
@@ -118,6 +172,16 @@
       font-weight: 700;
       color: #1d1d1f;
       letter-spacing: -0.3px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-brand .brand-emoji {
+      display: inline-block;
+      animation: brandSpin 4s ease-in-out infinite;
+    }
+    @keyframes brandSpin {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(10deg); }
+      75% { transform: rotate(-10deg); }
     }
     .nav-links {
       display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end;
@@ -178,25 +242,77 @@
       padding: 24px;
       margin-bottom: 16px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: all 0.3s;
     }
+    .card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
 
     /* ===== HOME ===== */
-    .greeting { text-align: center; padding: 40px 20px; }
-    .greeting h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.5px; }
-    .greeting p { color: #86868b; margin-top: 8px; font-size: 1rem; }
+    .hero-section {
+      text-align: center; padding: 40px 20px 20px;
+      position: relative; overflow: hidden;
+    }
+    .hero-section .hero-emoji {
+      font-size: 4rem; display: block; margin-bottom: 8px;
+      animation: heroBounce 3s ease-in-out infinite;
+    }
+    @keyframes heroBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.05); }
+    }
+    .hero-section .hero-greeting { font-size: 1rem; color: #86868b; font-weight: 500; }
+    .hero-section h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.5px; margin: 4px 0; }
+    .hero-section .hero-date { font-size: 0.85rem; color: #86868b; margin-top: 4px; }
+    .hero-section .hero-quote {
+      margin-top: 16px; padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(255,45,85,0.05), rgba(175,82,222,0.05));
+      border-radius: 14px; font-size: 0.9rem; font-style: italic; color: #555;
+      line-height: 1.5;
+    }
+    .hero-section .hero-quote-author { font-size: 0.75rem; color: #86868b; margin-top: 6px; font-style: normal; }
 
     .quick-stats {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
     }
     .stat-card {
-      text-align: center; padding: 20px; border-radius: 14px;
+      text-align: center; padding: 20px 12px; border-radius: 14px;
       background: rgba(255,255,255,0.7); backdrop-filter: blur(20px);
       border: 0.5px solid rgba(255,255,255,0.5);
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: all 0.3s; cursor: default;
     }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
     .stat-card .stat-icon { font-size: 1.8rem; }
     .stat-card .stat-value { font-size: 1.6rem; font-weight: 700; margin: 4px 0; }
     .stat-card .stat-label { font-size: 0.8rem; color: #86868b; }
+
+    .home-quote {
+      margin-top: 16px; padding: 20px 24px;
+      background: linear-gradient(135deg, rgba(255,45,85,0.04), rgba(175,82,222,0.04));
+      border-radius: 16px; text-align: center;
+      border: 0.5px solid rgba(0,0,0,0.04);
+    }
+    .home-quote .quote-text {
+      font-size: 1rem; font-style: italic; color: #555; line-height: 1.6;
+    }
+    .home-quote .quote-author {
+      font-size: 0.8rem; color: #86868b; margin-top: 8px; font-style: normal;
+    }
+
+    .home-actions {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px;
+    }
+    .home-action {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 16px 8px; border-radius: 14px; cursor: pointer;
+      background: rgba(255,255,255,0.7); backdrop-filter: blur(20px);
+      border: 0.5px solid rgba(255,255,255,0.5);
+      transition: all 0.3s; text-decoration: none; color: #1d1d1f;
+    }
+    .home-action:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .home-action .action-icon { font-size: 1.6rem; }
+    .home-action .action-label { font-size: 0.7rem; color: #86868b; font-weight: 500; margin-top: 4px; }
+
+
 
     /* ===== MORGEN-STYLE TIMETABLE ===== */
     .timeline-container {
@@ -871,7 +987,7 @@
 
 <div id="main-content">
   <nav>
-    <div class="nav-brand">Shreya's Space</div>
+    <div class="nav-brand"><span class="brand-emoji">🌻</span> Shreya's Space</div>
     <div class="hamburger" onclick="toggleNav()">
       <span></span><span></span><span></span>
     </div>
@@ -889,10 +1005,16 @@
 
   <!-- HOME -->
   <div id="section-home" class="section active">
-    <div class="card" style="text-align:center;padding:40px 20px;">
-      <div style="font-size:3rem;margin-bottom:12px;">🌻</div>
-      <h1 style="font-size:1.8rem;font-weight:700;letter-spacing:-0.5px;">Hey Shreya</h1>
-      <p style="color:#86868b;margin-top:6px;">Your little corner of the internet</p>
+    <div class="hero-section">
+      <span class="hero-emoji">🌻</span>
+      <div class="hero-greeting" id="heroGreeting">Good Morning</div>
+      <h1>Shreya</h1>
+      <div class="hero-date" id="heroDate"></div>
+      <div class="home-quote-card">
+        <div class="quote-icon">💛</div>
+        <div class="quote-text" id="dailyQuote">"You are capable of amazing things."</div>
+        <div class="quote-author" id="quoteAuthor">— Unknown</div>
+      </div>
     </div>
     <div class="quick-stats">
       <div class="stat-card">
@@ -915,6 +1037,24 @@
         <div class="stat-value" id="totalPhotos">0</div>
         <div class="stat-label">Photos</div>
       </div>
+    </div>
+    <div class="home-actions">
+      <a class="home-action" href="#" onclick="showSection('timetable')">
+        <span class="action-icon">📅</span>
+        <span class="action-label">Schedule</span>
+      </a>
+      <a class="home-action" href="#" onclick="showSection('period')">
+        <span class="action-icon">🩸</span>
+        <span class="action-label">Cycle</span>
+      </a>
+      <a class="home-action" href="#" onclick="showSection('study')">
+        <span class="action-icon">🌱</span>
+        <span class="action-label">Study</span>
+      </a>
+      <a class="home-action" href="#" onclick="showSection('notes')">
+        <span class="action-icon">📝</span>
+        <span class="action-label">Notes</span>
+      </a>
     </div>
   </div>
 
@@ -1975,12 +2115,49 @@
   }
 
   // ===== HOME =====
+  const QUOTES = [
+    { text: "You are capable of amazing things.", author: "Unknown" },
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { text: "You are stronger than you think.", author: "Unknown" },
+    { text: "Small steps lead to big changes.", author: "Unknown" },
+    { text: "Your only limit is your mind.", author: "Unknown" },
+    { text: "Every day is a fresh start.", author: "Unknown" },
+    { text: "Be proud of how far you've come.", author: "Unknown" },
+    { text: "You are exactly where you need to be.", author: "Unknown" },
+    { text: "Believe in your own magic.", author: "Unknown" },
+    { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" },
+    { text: "She turned her can'ts into cans and her dreams into plans.", author: "Unknown" },
+    { text: "You are stronger than you know, braver than you believe, and loved more than you imagine.", author: "Unknown" },
+    { text: "Every day may not be good, but there is something good in every day.", author: "Unknown" },
+    { text: "The sun will rise and we will try again.", author: "Unknown" },
+  ];
+
   function updateHomeStats() {
     const s = getStudyData(); const n = getNotes(); const g = getGallery();
     document.getElementById('totalStudyHours').textContent = s.total.toFixed(1);
     document.getElementById('plantLevel').textContent = Math.floor(s.total / 5);
     document.getElementById('totalNotes').textContent = n.length;
     document.getElementById('totalPhotos').textContent = g.length;
+
+    // Greeting
+    const h = new Date().getHours();
+    let greeting = 'Good Evening';
+    if (h < 12) greeting = 'Good Morning';
+    else if (h < 17) greeting = 'Good Afternoon';
+    document.getElementById('heroGreeting').textContent = greeting;
+
+    // Date
+    const now = new Date();
+    document.getElementById('heroDate').textContent =
+      now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+    // Daily quote
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000*60*60*24));
+    const quoteIdx = dayOfYear % QUOTES.length;
+    const q = QUOTES[quoteIdx];
+    document.getElementById('dailyQuote').textContent = `"${q.text}"`;
+    document.getElementById('quoteAuthor').textContent = `— ${q.author}`;
   }
 
   // ===== INIT =====
