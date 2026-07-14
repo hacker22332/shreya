@@ -1,7 +1,7 @@
 const CACHE_NAME = 'shreyas-space-v1';
 const ASSETS = [
   '.',
-  'shreyas-space.html',
+  'index.html',
   'manifest.json',
   'icon-192.svg'
 ];
