@@ -2430,6 +2430,11 @@
   }
 
   // ===== INIT =====
+  // Clear all past test data (runs once)
+  if (!localStorage.getItem('shreya_ready')) {
+    ['shreya_blocks','shreya_periods','shreya_daily_logs','shreya_study','shreya_evernotes','shreya_notebooks','shreya_gallery','shreya_timeline','shreya_timetable'].forEach(k => localStorage.removeItem(k));
+    localStorage.setItem('shreya_ready', '1');
+  }
   renderTimetable(); renderPeriodCalendar(); renderStudy();
   renderNotes(); renderGallery(); renderTimeline(); updateHomeStats();
 
